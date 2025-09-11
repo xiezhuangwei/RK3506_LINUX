@@ -1,0 +1,41 @@
+# Ignore kernel build artifacts
+# Built-in libraries
+**/built-in.a
+**/.built-in.a.cmd
+
+# Module order files
+**/modules.order
+**/.modules.order.cmd
+
+# Kernel modules
+*.ko
+*.mod.c
+*.mod.o
+*.o
+*.cmd
+.tmp_versions/
+Module.symvers
+modules.builtin
+modules.builtin.modinfo
+modules.order
+
+*.mod
+*.mod.o
+*.mod.c
+
+ **/*.mod.o
+ **/*.mod.c
+ *.cmd
+ *.tmp_versions/
+ Module.symvers
+modules.order
+modules.builtin
+
+*.s
+!*.S                  
+*.d             
+*.tmp
+*.syms
+
+
+output
