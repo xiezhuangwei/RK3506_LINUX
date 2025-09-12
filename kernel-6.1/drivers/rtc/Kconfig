@@ -2016,4 +2016,10 @@ config RTC_DRV_POLARFIRE_SOC
 	  This driver can also be built as a module, if so, the module
 	  will be called "rtc-mpfs".
 
+config RTC_DRIVER_CS4760
+    tristate "Cirrus Logic CS4760 RTC support"
+    depends on I2C
+    help
+      Support for the RTC functionality in Cirrus Logic CS4760 audio codec.
+	  
 endif # RTC_CLASS
