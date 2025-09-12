@@ -153,6 +153,7 @@
 	};
 
 	gpio_keys: gpio-keys {
+		status = "disabled";
 		compatible = "gpio-keys";
 		pinctrl-names = "default";
 		pinctrl-0 = <&key_wake_up>;
@@ -246,7 +247,7 @@
 		pinctrl-0 = <&uart5m0_rtsn_pins>;
 		pinctrl-1 = <&uart5_gpios>;
 		BT,power_gpio    = <&gpio3 RK_PB6 GPIO_ACTIVE_HIGH>;
-		status = "okay";
+		status = "disabled";
 	};
 
 	wireless-wlan {
@@ -256,12 +257,31 @@
 		pinctrl-0 = <&wifi_wake_host>;
 		wifi_chip_type = "cyw43455";
 		WIFI,host_wake_irq = <&gpio0 RK_PC0 GPIO_ACTIVE_HIGH>;
-		status = "okay";
+		status = "disabled";
+	};
+	pwm_rockchip_test: pwm-rockchip-test {
+		compatible = "pwm-rockchip-test";
+		pwms = <&pwm1_8ch_0 0 25000 0>,
+		       <&pwm1_8ch_1 0 25000 0>,
+		       <&pwm1_8ch_2 0 25000 0>,
+		       <&pwm1_8ch_3 0 25000 0>,
+		       <&pwm1_8ch_4 0 25000 0>,
+		       <&pwm1_8ch_5 0 25000 0>,
+		       <&pwm1_8ch_6 0 25000 0>,
+		       <&pwm1_8ch_7 0 25000 0>;
+		pwm-names = "pwm1_0",
+			    "pwm1_1",
+			    "pwm1_2",
+			    "pwm1_3",
+			    "pwm1_4",
+			    "pwm1_5",
+			    "pwm1_6",
+			    "pwm1_7";
 	};
 };
 
 &audio_codec {
-	status = "okay";
+	status = "disabled";
 };
 
 &cma {
@@ -301,7 +321,7 @@
 };
 
 &i2c0 {
-	status = "okay";
+	status = "disabled";
 	pinctrl-names = "default";
 	pinctrl-0 = <&rm_io13_i2c0_scl
 		     &rm_io14_i2c0_sda>;
@@ -320,20 +340,22 @@
 	};
 };
 
-&mmc {
-	bus-width = <4>;
-	cap-sd-highspeed;
-	no-sd;
-	no-mmc;
-	pinctrl-names = "default";
-	pinctrl-0 = <&sdmmc_clk_pins &sdmmc_cmd_pins &sdmmc_bus4_pins>;
-	ignore-pm-notify;
-	keep-power-in-suspend;
-	non-removable;
-	mmc-pwrseq = <&sdio_pwrseq>;
-	sd-uhs-sdr104;
-	status = "okay";
-};
+&mmc { 
+	max-frequency=<150000000>; 
+	supports-sd; 
+	bus-width = <4>; 
+	cap-mmc-highspeed; 
+	cap-sd-highspeed; 
+	sd-uhs-sdr12; 
+	sd-uhs-sdr25; 
+	sd-uhs-sdr50; 
+	sd-uhs-sdr104; //keep-power-in-suspend; 
+	pinctrl-names = "normal", "idle"; // 状态命名必须与pinctrl节点匹配 
+	pinctrl-0 = <&sdmmc_clk_pins &sdmmc_cmd_pins &sdmmc_bus4_pins>; 
+	vmmc-supply = <&vcc_sd>; 
+	broken-cd; 
+	status = "okay"; 
+}; 
 
 &pinctrl {
 	gpio-keys {
@@ -367,22 +389,18 @@
 	};
 };
 
-&pwm0_4ch_0 {
-	pinctrl-names = "active";
-	pinctrl-0 = <&rm_io21_pwm0_ch0>;
-	status = "okay";
-};
-
-&pwm0_4ch_1 {
-	pinctrl-names = "active";
-	pinctrl-0 = <&rm_io20_pwm0_ch1>;
-	status = "okay";
-};
-
 &pwm0_4ch_2 {
 	pinctrl-names = "active";
 	pinctrl-0 = <&rm_io3_pwm0_ch2>;
 	status = "okay";
+};
+
+&pwm1_8ch_0 {
+	status = "okay";
+	pinctrl-names = "active";
+	pinctrl-0 = <&rm_io13_pwm1_ch0>;
+	assigned-clocks = <&cru CLK_PWM1>;
+	assigned-clock-rates = <100000000>;
 };
 
 &rga2 {
@@ -448,12 +466,12 @@
 };
 
 &tsadc {
-	status = "okay";
+	status = "disabled";
 };
 
 &uart5 {
 	pinctrl-0 = <&uart5m0_xfer_pins &uart5m0_ctsn_pins>;
-	status = "okay";
+	status = "disabled";
 };
 
 &u2phy_otg0 {
