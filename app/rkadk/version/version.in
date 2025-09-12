@@ -18,7 +18,7 @@
 #ifndef SRC_VERSION_H_
 #define SRC_VERSION_H_
 
-#define RKADK_VERSION_INFO        @VERSION_INFO@
-#define RKADK_BUILD_INFO          @BUILD_INFO@
+#define RKADK_VERSION_INFO        "@VERSION_INFO@"
+#define RKADK_BUILD_INFO          "@BUILD_INFO@"
 
 #endif /*SRC_VERSION_H_*/
