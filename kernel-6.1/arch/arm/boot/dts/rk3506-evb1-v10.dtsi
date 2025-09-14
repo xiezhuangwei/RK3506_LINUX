@@ -106,7 +106,7 @@
     pinctrl-names = "default";
     pinctrl-0 = <&rm_io4_i2c2_scl &rm_io5_i2c2_sda >;
     cs4760: cs4760@51 {
-        compatible = "cirrus,cs4760-rtc"; // 必须与驱动中的匹配
+        compatible = "semico,cs4760"; // 必须与驱动中的匹配
         reg = <0x51>;
     };
 };
