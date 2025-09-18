@@ -14,10 +14,10 @@
 
 	extcon_usb: extcon-usb {
 		compatible = "linux,extcon-usb-gpio";
-		vbus-gpio = <&gpio1 RK_PC5 GPIO_ACTIVE_LOW>;
+		vbus-gpio = <&gpio2 RK_PC1 GPIO_ACTIVE_LOW>;
 		pinctrl-names = "default";
 		pinctrl-0 = <&usb_extcon_vbus>;
-		status = "disabled";
+		status = "okay";
 	};
 
 	sai_dais: sai-dais {
@@ -40,31 +40,31 @@
 		};
 	};
 
-	//vcc5v0_otg0: vcc5v0-otg0-regulator {
-	//	compatible = "regulator-fixed";
-	//	regulator-name = "vcc5v0_otg0";
-	//	regulator-min-microvolt = <5000000>;
-	//	regulator-max-microvolt = <5000000>;
-	//	enable-active-high;
-	//	gpio = <&gpio1 RK_PC4 GPIO_ACTIVE_HIGH>;
-	//	vin-supply = <&vcc_sys>;
-	//	pinctrl-names = "default";
-	//	pinctrl-0 = <&vcc5v0_otg0_en>;
-	//};
+	vcc5v0_otg0: vcc5v0-otg0-regulator {
+		compatible = "regulator-fixed";
+		regulator-name = "vcc5v0_otg0";
+		regulator-min-microvolt = <5000000>;
+		regulator-max-microvolt = <5000000>;
+		enable-active-high;
+		gpio = <&gpio2 RK_PC2 GPIO_ACTIVE_HIGH>;
+		vin-supply = <&vcc_sys>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&vcc5v0_otg0_en>;
+	};
 
-	//vcc5v0_otg1: vcc5v0-otg1-regulator {
-	//	compatible = "regulator-fixed";
-	//	regulator-name = "vcc5v0_otg1";
-	//	regulator-boot-on;
-	//	regulator-always-on;
-	//	regulator-min-microvolt = <5000000>;
-	//	regulator-max-microvolt = <5000000>;
-	//	enable-active-high;
-	//	gpio = <&gpio1 RK_PD0 GPIO_ACTIVE_HIGH>;
-	//	vin-supply = <&vcc_sys>;
-	//	pinctrl-names = "default";
-	//	pinctrl-0 = <&vcc5v0_otg1_en>;
-	//};
+	vcc5v0_otg1: vcc5v0-otg1-regulator {
+		compatible = "regulator-fixed";
+		regulator-name = "vcc5v0_otg1";
+		regulator-boot-on;
+		regulator-always-on;
+		regulator-min-microvolt = <5000000>;
+		regulator-max-microvolt = <5000000>;
+		enable-active-high;
+		gpio = <&gpio2 RK_PC3 GPIO_ACTIVE_HIGH>;
+		vin-supply = <&vcc_sys>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&vcc5v0_otg1_en>;
+	};
 	
 	vcc_sd: sdmmc-regulator {
 		compatible = "regulator-fixed";
@@ -93,15 +93,15 @@
 &pinctrl {
 	usb {
 		usb_extcon_vbus: usb-extcon-vbus {
-			rockchip,pins = <1 RK_PC5 RK_FUNC_GPIO &pcfg_pull_none>;
+			rockchip,pins = <2 RK_PC1 RK_FUNC_GPIO &pcfg_pull_none>;
 		};
 
 		vcc5v0_otg0_en: vcc5v0-otg0-en {
-			rockchip,pins = <1 RK_PC4 RK_FUNC_GPIO &pcfg_pull_none>;
+			rockchip,pins = <2 RK_PC2 RK_FUNC_GPIO &pcfg_pull_none>;
 		};
 
 		vcc5v0_otg1_en: vcc5v0-otg1-en {
-			rockchip,pins = <1 RK_PD0 RK_FUNC_GPIO &pcfg_pull_none>;
+			rockchip,pins = <2 RK_PC3 RK_FUNC_GPIO &pcfg_pull_none>;
 		};
 	};
 };
@@ -125,17 +125,17 @@
 };
 
 &u2phy_otg0 {
-	//vbus-supply = <&vcc5v0_otg0>;
+	vbus-supply = <&vcc5v0_otg0>;
 	rockchip,gpio-vbus-det;
-	status = "disabled";
+	status = "okay";
 };
 
 &u2phy_otg1 {
-	//phy-supply = <&vcc5v0_otg1>;
-	status = "disabled";
+	phy-supply = <&vcc5v0_otg1>;
+	status = "okay";
 };
 
 &usb2phy {
 	extcon = <&extcon_usb>;
-	status = "disabled";
+	status = "okay";
 };

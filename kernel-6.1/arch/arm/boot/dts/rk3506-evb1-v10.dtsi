@@ -67,10 +67,6 @@
 	status = "okay";
 };
 
-&u2phy_otg0 {
-	rockchip,vbus-always-on;
-};
-
 &spi1 {
     status = "okay";
     num-cs = <1>;
