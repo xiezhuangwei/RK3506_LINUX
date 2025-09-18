@@ -36,6 +36,6 @@ modules.builtin
 *.d             
 *.tmp
 *.syms
-
+*.dtb
 
 output
