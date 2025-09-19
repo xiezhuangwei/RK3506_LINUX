@@ -16,7 +16,6 @@ insmod /oem/usb/serial/option.ko
 sleep 1
 
 # 绑定 ML307B 设备
-echo "2c7c 0125" > /sys/bus/usb-serial/drivers/option/new_id 2>/dev/null || \
-echo "2c7c 0125" > /sys/bus/usb-serial/drivers/usbserial/new_id
+echo "37d4 a002" > /sys/bus/usb-serial/drivers/option1/new_id
 
 
