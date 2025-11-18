@@ -34,10 +34,10 @@ extern "C" {
 #  define EVDEV_NAME   "/dev/input/event2"        /*You can use the "evtest" Linux tool to get the list of devices and test them*/
 #  define EVDEV_SWAP_AXES         0               /*Swap the x and y axes of the touchscreen*/
 
-#  define DEFAULT_EVDEV_HOR_MIN   0
-#  define DEFAULT_EVDEV_HOR_MAX   720
-#  define DEFAULT_EVDEV_VER_MIN   0
-#  define DEFAULT_EVDEV_VER_MAX   1280
+#  define DEFAULT_EVDEV_HOR_MIN   250
+#  define DEFAULT_EVDEV_HOR_MAX   3700
+#  define DEFAULT_EVDEV_VER_MIN   307
+#  define DEFAULT_EVDEV_VER_MAX   3700
 #endif  /*USE_EVDEV*/
 
 #if USE_EVDEV || USE_BSD_EVDEV

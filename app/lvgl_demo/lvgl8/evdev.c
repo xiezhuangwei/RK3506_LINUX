@@ -62,6 +62,7 @@ static int evdev_max_x = DEFAULT_EVDEV_HOR_MAX;
 static int evdev_min_y = DEFAULT_EVDEV_VER_MIN;
 static int evdev_max_y = DEFAULT_EVDEV_VER_MAX;
 static int evdev_calibrate = 0;
+int raw_x, raw_y, button_state;
 static evdev_record_t evdev_val[2];
 static int touch_up = 0;
 static pthread_t evdev_tid;
@@ -173,7 +174,7 @@ int evdev_get_tp_event(void)
             continue;
 #endif
 
-        if (strstr(tp_name, "ts") || strstr(tp_name, "gsl"))
+        if (strstr(tp_name, "ts") || strstr(tp_name, "gsl") || strstr(tp_name, "ADS7846 Touchscreen"))
         {
             sprintf(tp_event, "/dev/input/event%d", i);
             printf("%s: %s = %s%s\n", __func__, file_name, tp_name, tp_event);
@@ -601,6 +602,7 @@ static void *evdev_thread(void *arg)
         evdev_val[1].y = y;
         evdev_val[1].button = button;
         pthread_mutex_unlock(&evdev_lock);
+		printf("evdev_msg = %d %d %d, %d %d\n", x, y, button, in.type, in.code);
 
 #if FILE_DEBUG
         fprintf(raw_point, "%d\t%d\t%d\n", x, y, button);
@@ -617,7 +619,6 @@ void evdev_read(lv_indev_drv_t *drv, lv_indev_data_t *data)
     lv_disp_t *disp = drv->disp;
     int hor_res = disp->driver->hor_res;
     int ver_res = disp->driver->ver_res;
-    int raw_x, raw_y, button_state;
     int x, y;
     int tmp;
     int first_point = 0;
@@ -693,8 +694,15 @@ void evdev_read(lv_indev_drv_t *drv, lv_indev_data_t *data)
     x = (int)kfx.v;
     y = (int)kfy.v;
 
+#if 1
+	//x反向处理
+    data->point.x = hor_res-x;
+	//y反向处理
+	data->point.y = ver_res-y;
+#else
     data->point.x = x;
-    data->point.y = y;
+	data->point.y = y;
+#endif
     data->state = button_state;
 
     if (data->point.x < 0)
@@ -716,7 +724,8 @@ void evdev_read(lv_indev_drv_t *drv, lv_indev_data_t *data)
         fflush(lv_fix_point);
     }
 #endif
-
+	if(data->state > 0)
+		printf("x %d\t y %d\t s %d\t h %d\t v %d\n", data->point.x, data->point.y,data->state, hor_res, ver_res);
     return ;
 }
 
