@@ -18,6 +18,7 @@ include_directories(
 	${PROJECT_SOURCE_DIR}/furniture_control
 	${PROJECT_SOURCE_DIR}/setting
 	${PROJECT_SOURCE_DIR}/smart_home
+	${PROJECT_SOURCE_DIR}/xzw_work
 	${PROJECT_SOURCE_DIR}/include
 	${PROJECT_SOURCE_DIR}/intercom_homepage
 	${PROJECT_SOURCE_DIR}/intercom_homepage/video_monitor
@@ -37,6 +38,7 @@ aux_source_directory(./home SRCS)
 aux_source_directory(./furniture_control SRCS)
 aux_source_directory(./setting SRCS)
 aux_source_directory(./smart_home SRCS)
+aux_source_directory(./xzw_work SRCS)
 aux_source_directory(./intercom_homepage SRCS)
 aux_source_directory(./intercom_homepage/video_monitor SRCS)
 aux_source_directory(./intercom_homepage/intercom_call SRCS)

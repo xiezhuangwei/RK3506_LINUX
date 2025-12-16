@@ -39,7 +39,8 @@
 #define WIFI_OFF_PIC    "A:"PATH_PREFIX"/wifi-off.png"
 #define WIFI_SCANNING   "A:"PATH_PREFIX"/scanning.png"
 
-#define BG_PIC_0        "A:"PATH_PREFIX"/bg_pic_0.sjpg"
+//#define BG_PIC_0        "A:"PATH_PREFIX"/bg_pic_0.sjpg"
+#define BG_PIC_0        "A:"PATH_PREFIX"/work_init.jpg"
 #define BG_PIC_1        "A:"PATH_PREFIX"/bg_pic_1.sjpg"
 #define BG_PIC_2        "A:"PATH_PREFIX"/bg_pic_2.sjpg"
 #define BG_PIC_3        "A:"PATH_PREFIX"/bg_pic_3.sjpg"

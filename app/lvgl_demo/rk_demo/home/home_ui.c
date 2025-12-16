@@ -11,6 +11,7 @@
 #include "smart_home_ui.h"
 #include "furniture_control_ui.h"
 #include "wifibt.h"
+#include "work_login_ui.h"
 
 static lv_obj_t *scr = NULL;
 static lv_obj_t *bg_pic;
@@ -184,6 +185,22 @@ static void take_snapshot(lv_timer_t *timer)
     }
 }
 
+// 调试函数：打印容器内所有子对象位置
+void print_children_pos(lv_obj_t * parent)
+{
+    lv_obj_update_layout(parent);  // 关键！
+
+    printf("Parent size: %dx%d\n", lv_obj_get_width(parent), lv_obj_get_height(parent));
+    uint32_t i = 0;
+    lv_obj_t * child;
+    while ((child = lv_obj_get_child(parent, i)) != NULL) {
+        printf("Child[%d]: (%d,%d) %dx%d\n", i,
+               lv_obj_get_x(child), lv_obj_get_y(child),
+               lv_obj_get_width(child), lv_obj_get_height(child));
+        i++;
+    }
+}
+
 void home_ui_init(void)
 {
     lv_area_t area1, area2, area3;
@@ -224,6 +241,7 @@ void home_ui_init(void)
     home_desc.row_dsc = row_dsc;
 
     ui_box_main = ui_btnmatrix_create(main, &home_desc);
+	print_children_pos(ui_box_main);
     if (scr_dir == LV_DIR_HOR)
         lv_obj_align(ui_box_main, LV_ALIGN_BOTTOM_MID, 0, -20);
     else
@@ -284,9 +302,10 @@ void rk_demo_init(void)
 
     lv_disp_load_scr(scr);
 
-    timer_snapshot = lv_timer_create(take_snapshot, 1000, NULL);
+    //timer_snapshot = lv_timer_create(take_snapshot, 1000, NULL);
 
-    home_ui_init();
+	//home_ui_init();
+	work_login_ui_init();
 
 #if ASR_EN
     asr_icon_create(lv_layer_sys());
