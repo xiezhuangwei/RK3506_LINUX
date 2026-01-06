@@ -20,15 +20,15 @@ static lv_obj_t *ui_label_date;
 #if WIFIBT_EN
 static lv_obj_t *ui_wifi;
 #endif
-static lv_timer_t *timer_date;
-static lv_timer_t *timer_snapshot;
+static lv_timer_t *timer_date = NULL;
+static lv_timer_t *timer_snapshot = NULL;
 
 static lv_obj_t *main = NULL;
 static lv_obj_t *ui_box_main = NULL;
-static lv_obj_t *ui_smart_home;
-static lv_obj_t *ui_furniture_control;
-static lv_obj_t *ui_phone;
-static lv_obj_t *ui_setting;
+static lv_obj_t *ui_smart_home = NULL;
+static lv_obj_t *ui_furniture_control = NULL;
+static lv_obj_t *ui_phone = NULL;
+static lv_obj_t *ui_setting = NULL;
 static lv_img_dsc_t *bg_snapshot = NULL;
 
 static void page_switch(lv_event_t *e);
@@ -287,6 +287,19 @@ void home_ui_init(void)
 
     if (area2.y1 < area1.y2)
         lv_obj_set_y(ui_box_main, area1.y2 - area2.y1 + 5);
+}
+
+void home_ui_uninit(void)
+{
+	if(timer_date != NULL){
+		lv_timer_del(timer_date);
+		timer_date = NULL;
+	}
+
+	if(main != NULL){
+		lv_obj_del(main);
+		main = NULL;
+	}
 }
 
 void rk_demo_init(void)

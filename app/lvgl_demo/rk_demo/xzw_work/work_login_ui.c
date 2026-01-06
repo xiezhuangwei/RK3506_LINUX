@@ -179,7 +179,7 @@ static void handle_login(void)
         printf("Error: Text areas not initialized\n");
         return;
     }
-    
+#if 0
     const char *user = lv_textarea_get_text(ta_username);
     const char *pass = lv_textarea_get_text(ta_password);
     
@@ -210,7 +210,7 @@ static void handle_login(void)
         cleanup_login_screen();
         
         // TODO: 这里添加跳转到主界面的代码
-        // create_main_screen();
+		work_main_ui_init();
     } else {
         printf("Login failed\n");
         lv_textarea_set_placeholder_text(ta_username, "Invalid credentials!");
@@ -218,6 +218,15 @@ static void handle_login(void)
         lv_textarea_set_text(ta_username, "");
         lv_textarea_set_text(ta_password, "");
     }
+#else
+	// 安全考虑：清空密码框
+	lv_textarea_set_text(ta_password, "");
+
+	work_main_ui_init();
+	
+	destroy_login_screen();
+
+#endif
 }
 
 /**
@@ -399,19 +408,10 @@ static void setup_focus_horizontal(void)
  */
 static void cleanup_login_screen(void)
 {
-    if (login_scr) {
-        // 从父对象中移除（如果需要）
-        lv_obj_t *parent = lv_obj_get_parent(login_scr);
-        if (parent) {
-            lv_obj_remove_style_all(login_scr);
-        }
-        
-        // 清理子对象
-        lv_obj_clean(login_scr);
-        
+    if (login_scr) { 
         // 删除对象
         lv_obj_del(login_scr);
-        
+
         // 重置全局指针
         login_scr = NULL;
         ta_username = NULL;
@@ -425,7 +425,7 @@ static void cleanup_login_screen(void)
 static void create_login_screen_horizontal(void)
 {
     if (login_scr) {
-        lv_scr_load(login_scr);
+        lv_disp_load_scr(login_scr);
         return;
     }
     
@@ -438,7 +438,6 @@ static void create_login_screen_horizontal(void)
     
     // 创建屏幕
     login_scr = lv_obj_create(NULL);
-    lv_scr_load(login_scr);
     
     // 设置横屏背景
     lv_obj_set_style_bg_color(login_scr, lv_color_hex(0xF0F4F8), 0);
@@ -468,7 +467,9 @@ static void create_login_screen_horizontal(void)
     
     // 设置焦点
     setup_focus_horizontal();
-    
+
+    lv_disp_load_scr(login_scr);
+
     printf("Horizontal login screen created (480x272)\n");
 }
 
@@ -508,7 +509,12 @@ int verify_login_credentials(const char* username, const char* password)
 static void *login_init(void *arg)
 {
 	sleep(5);
+	printf("login_init run\n");
     create_login_screen_horizontal();
+	home_ui_uninit();
+	while(1){
+		sleep(10);
+	}
 }
 
 
