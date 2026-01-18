@@ -316,8 +316,10 @@ static void function_btn_event(lv_event_t* e) {
         // 切换到参数设定页面
     } else if (strcmp(text, "监控画面") == 0) {
         // 切换到监控画面
+        work_current_monitor_ui_init();
     } else if (strcmp(text, "电源监控") == 0) {
         // 切换到电源监控
+        work_power_monitor_ui_init();
     }
 	destroy_func_interface();
 }
