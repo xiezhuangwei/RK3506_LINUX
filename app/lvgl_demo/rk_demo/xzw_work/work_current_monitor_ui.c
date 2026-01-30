@@ -441,6 +441,8 @@ static void func_btn_event(lv_event_t* e) {
 static void weld_btn_event(lv_event_t* e) {
 	// 开始焊接操作
 	printf("焊接按钮被点击\n");
+	work_welder_type_setting_ui_init();
+	destroy_current_monitor_ui();
 }
 
 // 创建底部按钮区域
@@ -487,7 +489,7 @@ void create_current_monitor_interface(void) {
     scr = lv_obj_create(NULL);
     
     // 设置屏幕背景色为浅色
-    lv_obj_set_style_bg_color(scr, COLOR_LIGHT_BG, 0);
+    lv_obj_set_style_bg_color(scr, lv_color_white(), 0);
     lv_obj_set_style_bg_opa(scr, LV_OPA_100, 0);
     
     // 创建各个界面组件

@@ -111,32 +111,14 @@ static void image_minus_event(lv_event_t* e) {
 }
 
 static void func_btn_event(lv_event_t* e) {
-    // 切换到功能选择界面
-    //current_spec = (current_spec % 3) + 1;  // 循环1-3
-    //lv_label_set_text_fmt(spec_label, "%d", current_spec);
-
 	work_func_chose_ui_init();
     destroy_main_control_screen();
 }
 
 static void weld_btn_event(lv_event_t* e) {
-    // 开始焊接
-    dot_count++;
-    weld_count++;
-    prod_count++;
-    
-    lv_label_set_text_fmt(dot_count_label, "%d", dot_count);
-    lv_label_set_text_fmt(weld_count_label, "%d", weld_count);
-    lv_label_set_text_fmt(prod_count_label, "%d", prod_count);
-    
-    // 模拟进度
-    if (remain_dot > 0) remain_dot--;
-    if (remain_prod > 0) remain_prod--;
-    
-    lv_label_set_text_fmt(remain_dot_label, "%d", remain_dot);
-    lv_label_set_text_fmt(remain_prod_label, "%d", remain_prod);
+    work_welder_type_setting_ui_init();
+	destroy_main_control_screen();
 }
-
 
 // 创建样式
 static void create_styles(void) {

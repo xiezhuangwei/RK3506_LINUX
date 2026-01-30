@@ -245,6 +245,13 @@ static lv_obj_t* create_center_display(lv_obj_t* parent) {
     return chinese_title;
 }
 
+static void weld_btn_event(lv_event_t* e) {
+    printf("焊接按钮被点击\n");
+    // 开始焊接操作
+    work_welder_type_setting_ui_init();
+	destroy_func_interface();
+}
+
 // 创建底部状态栏
 static void create_bottom_bar(lv_obj_t* parent) {
 	int x_offset = 2;
@@ -281,7 +288,7 @@ static void create_bottom_bar(lv_obj_t* parent) {
     
     // 按钮事件
     //lv_obj_add_event_cb(btn_func, func_btn_event, LV_EVENT_CLICKED, NULL);
-    //lv_obj_add_event_cb(btn_weld, weld_btn_event, LV_EVENT_CLICKED, NULL);
+    lv_obj_add_event_cb(btn_weld, weld_btn_event, LV_EVENT_CLICKED, NULL);
 }
 
 
@@ -314,6 +321,7 @@ static void function_btn_event(lv_event_t* e) {
         work_main_ui_init();
     } else if (strcmp(text, "参数设定") == 0) {
         // 切换到参数设定页面
+        work_welding_params_ui_init();
     } else if (strcmp(text, "监控画面") == 0) {
         // 切换到监控画面
         work_current_monitor_ui_init();

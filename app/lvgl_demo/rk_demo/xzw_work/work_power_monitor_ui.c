@@ -270,8 +270,9 @@ static void func_btn_event(lv_event_t* e) {
 
 static void weld_btn_event(lv_event_t* e) {
     // 切换到焊接界面
-    // TODO: 实现焊接界面切换
     printf("切换到焊接界面\n");
+	work_welder_type_setting_ui_init();
+	destroy_power_monitor_ui();
 }
 
 // 创建底部按钮
