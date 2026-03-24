@@ -6,20 +6,7 @@
 #include "lv_font_welder_20.h"
 #include "lv_font_welder_16.h"
 #include "lv_font_welder_12.h"
-
-// 定义颜色
-#define COLOR_BG_BLUE lv_color_hex(0x003366)      // 深蓝色背景
-#define COLOR_BG_LIGHT_BLUE lv_color_hex(0xADD8E6) // 浅蓝色背景
-#define COLOR_DEEP_BLUE   lv_color_hex(0x1a2b5f)    // 深蓝
-#define COLOR_LIGHT_BLUE  lv_color_hex(0x4a7bd9)    // 浅蓝
-#define COLOR_BG_YELLOW lv_color_hex(0xFFCC00)    // 黄色背景
-#define COLOR_TEXT_WHITE lv_color_white()         // 白色文字
-#define COLOR_TEXT_BLACK lv_color_black()         // 黑色文字
-#define COLOR_TEXT_BLUE lv_color_hex(0x003366)    // 深蓝色文字
-#define COLOR_ORANGE lv_color_hex(0xFF6B35)       // 橙色
-#define COLOR_RED lv_color_hex(0xFF0000)          // 红色（告警）
-#define COLOR_GREEN lv_color_hex(0x00FF00)        // 绿色（正常）
-#define COLOR_GRAY lv_color_hex(0xCCCCCC)         // 灰色（禁用）
+#include "work_color.h"
 
 // 全局变量
 static lv_obj_t* scr = NULL;

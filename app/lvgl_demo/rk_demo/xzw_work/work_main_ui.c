@@ -15,6 +15,7 @@
 #include "work_main_ui.h"
 #include "work_func_chose_ui.h"
 #include "ui_resource.h"
+#include "work_color.h"
 
 extern lv_style_t style_txt_l;
 
@@ -23,17 +24,8 @@ extern lv_style_t style_txt_l;
 #include "lv_font_welder_20.h"
 
 // 定义颜色
-#define COLOR_BG          		lv_color_hex(0xFFFFFF)      // 白色背景
 #define COLOR_TITLE_BG    		lv_color_hex(0xA3ECFA)      // 浅蓝色标题背景
-#define COLOR_TEXT_WHITE  		lv_color_hex(0xFFFFFF)      // 白色文字
 #define COLOR_TEXT_BLUE   		lv_color_hex(0x0066CC)      // 蓝色文字
-#define COLOR_TEXT_DARK   		lv_color_hex(0x333333)      // 深灰色文字
-#define COLOR_BUTTON_BG_BLUE   	lv_color_hex(0x3399FF)      // 按钮蓝色
-#define COLOR_BUTTON_BG_WHITE   lv_color_hex(0xFFFFFF)      // 按钮白色
-#define COLOR_DATA_BG     		lv_color_hex(0x000000)      // 黑色数据背景
-#define COLOR_DATA_TEXT   		lv_color_hex(0xFFFFFF)      // 白色数据文字
-#define COLOR_BORDER      		lv_color_hex(0xCCCCCC)      // 边框灰色
-#define COLOR_SPEC_BG     		lv_color_hex(0xD0E6FF)      // 当前规范浅蓝背景
 
 // 全局变量
 static lv_obj_t * scr = NULL;
@@ -120,55 +112,6 @@ static void weld_btn_event(lv_event_t* e) {
 	destroy_main_control_screen();
 }
 
-// 创建样式
-static void create_styles(void) {
-    // 标题样式
-    static lv_style_t style_title;
-    lv_style_init(&style_title);
-    lv_style_set_text_font(&style_title, &lv_font_welder_20);
-    lv_style_set_text_color(&style_title, COLOR_TEXT_BLUE);
-    lv_style_set_bg_color(&style_title, COLOR_TITLE_BG);
-    lv_style_set_bg_opa(&style_title, LV_OPA_100);
-    lv_style_set_pad_all(&style_title, 5);
-    lv_style_set_radius(&style_title, 0);
-    
-    // 标签样式
-    static lv_style_t style_label;
-    lv_style_init(&style_label);
-    lv_style_set_text_font(&style_label, &lv_font_welder_20);
-    lv_style_set_text_color(&style_label, COLOR_TEXT_BLUE);
-    
-    // 深色标签样式
-    static lv_style_t style_label_dark;
-    lv_style_init(&style_label_dark);
-    lv_style_set_text_font(&style_label_dark, &lv_font_welder_20);
-    lv_style_set_text_color(&style_label_dark, COLOR_TEXT_DARK);
-    
-    // 按钮样式
-    static lv_style_t style_btn;
-    lv_style_init(&style_btn);
-    lv_style_set_bg_color(&style_btn, COLOR_BUTTON_BG_BLUE);
-    lv_style_set_bg_opa(&style_btn, LV_OPA_100);
-    lv_style_set_radius(&style_btn, 5);
-    lv_style_set_pad_all(&style_btn, 10);
-    
-    // 数据框样式
-    static lv_style_t style_data_box;
-    lv_style_init(&style_data_box);
-    lv_style_set_bg_color(&style_data_box, COLOR_DATA_BG);
-    lv_style_set_bg_opa(&style_data_box, LV_OPA_100);
-    lv_style_set_text_color(&style_data_box, COLOR_DATA_TEXT);
-    lv_style_set_radius(&style_data_box, 5);
-    lv_style_set_pad_all(&style_data_box, 10);
-    lv_style_set_border_width(&style_data_box, 0);
-    
-    // 数字字体样式
-    static lv_style_t style_number;
-    lv_style_init(&style_number);
-    lv_style_set_text_font(&style_number, &lv_font_montserrat_24);
-    lv_style_set_text_color(&style_number, COLOR_DATA_TEXT);
-}
-
 // 创建标题区域
 static lv_obj_t* create_title_area(lv_obj_t* parent) {
     // 标题背景
@@ -186,7 +129,7 @@ static lv_obj_t* create_title_area(lv_obj_t* parent) {
 	// 主标题
 	lv_obj_t* title = lv_label_create(title_bg);
 	lv_obj_set_style_text_font(title, &lv_font_welder_20, 0);
-	lv_obj_set_style_text_color(title, COLOR_TEXT_WHITE, 0);
+	lv_obj_set_style_text_color(title, COLOR_WHITE, 0);
 	lv_obj_set_style_pad_all(title, 0, 0);
 	lv_obj_set_style_pad_top(title, 0, 0);
 	lv_obj_set_style_pad_bottom(title, 0, 0);
@@ -196,7 +139,7 @@ static lv_obj_t* create_title_area(lv_obj_t* parent) {
     // 英文副标题
     lv_obj_t* subtitle = lv_label_create(title_bg);
     lv_obj_set_style_text_font(subtitle, &lv_font_welder_20, 0);
-    lv_obj_set_style_text_color(subtitle, COLOR_TEXT_WHITE, 0);
+    lv_obj_set_style_text_color(subtitle, COLOR_WHITE, 0);
 	lv_obj_set_style_pad_all(subtitle, 0, 0);
 	lv_obj_set_style_pad_top(subtitle, 0, 0);
 	lv_obj_set_style_pad_bottom(subtitle, 0, 0);
@@ -222,12 +165,12 @@ static lv_obj_t* create_left_panel(lv_obj_t* parent) {
 	lv_obj_t* work_label = lv_label_create(parent);
 	// 1. 先设置背景（横向浅蓝色矩形）
 	lv_obj_set_size(work_label, 162, 35);  // 根据图片比例，宽度可以适当加大
-	lv_obj_set_style_bg_color(work_label, lv_color_hex(0xE6F2FF), 0);  // 更浅的蓝色
+	lv_obj_set_style_bg_color(work_label, COLOR_TITLE_BG, 0);  // 更浅的蓝色
 	lv_obj_set_style_bg_opa(work_label, LV_OPA_100, 0);
 	lv_obj_set_style_radius(work_label, 4, 0);	// 轻微圆角
 	// 2. 设置文字样式
 	lv_obj_set_style_text_font(work_label, &lv_font_welder_20, 0);
-	lv_obj_set_style_text_color(work_label, lv_color_hex(0x003366), 0);  // 深蓝色
+	lv_obj_set_style_text_color(work_label, COLOR_TEXT_BLUE, 0);  // 深蓝色
 	lv_obj_set_style_text_align(work_label, LV_TEXT_ALIGN_CENTER, 0);
 	// 3. 让文字在标签内垂直居中
 	lv_obj_set_style_pad_all(work_label, 8, 0);  // 内边距，帮助垂直居中
@@ -253,7 +196,7 @@ static lv_obj_t* create_left_panel(lv_obj_t* parent) {
 	// 加按钮
 	lv_obj_t* btn_plus = lv_btn_create(container);
 	lv_obj_set_size(btn_plus, 40, 30);
-	lv_obj_set_style_bg_color(btn_plus, lv_color_white(), 0);
+	lv_obj_set_style_bg_color(btn_plus, COLOR_WHITE, 0);
 	lv_obj_set_style_bg_opa(btn_plus, LV_OPA_100, 0);
 	lv_obj_set_style_border_color(btn_plus, COLOR_TEXT_BLUE, 0);  // 蓝色边框
 	lv_obj_set_style_border_width(btn_plus, 2, 0);	// 边框宽度2像素
@@ -267,21 +210,18 @@ static lv_obj_t* create_left_panel(lv_obj_t* parent) {
 	// 数据框
 	lv_obj_t* data_box = lv_label_create(container);
 	lv_obj_set_size(data_box, 70, 30);
-	lv_obj_set_style_bg_color(data_box, COLOR_DATA_BG, 0);
+	lv_obj_set_style_bg_color(data_box, COLOR_BLACK, 0);
 	lv_obj_set_style_bg_opa(data_box, LV_OPA_100, 0);
-	lv_obj_set_style_text_color(data_box, COLOR_DATA_TEXT, 0);
+	lv_obj_set_style_text_color(data_box, COLOR_WHITE, 0);
 	lv_obj_set_style_text_font(data_box, &lv_font_montserrat_24, 0);
 	lv_obj_set_style_text_align(data_box, LV_TEXT_ALIGN_CENTER, 0);
-	// 如果需要，也可以给数据框添加边框
-	lv_obj_set_style_border_color(data_box, lv_color_hex(0xCCCCCC), 0);
-	lv_obj_set_style_border_width(data_box, 1, 0);
 	dot_count_label = data_box;
 	lv_label_set_text_fmt(dot_count_label, "%d", dot_count);
 	
 	// 减按钮
 	lv_obj_t* btn_minus = lv_btn_create(container);
 	lv_obj_set_size(btn_minus, 40, 30);
-	lv_obj_set_style_bg_color(btn_minus, COLOR_BUTTON_BG_WHITE, 0);
+	lv_obj_set_style_bg_color(btn_minus, COLOR_WHITE, 0);
 	lv_obj_set_style_bg_opa(btn_minus, LV_OPA_100, 0);
 	lv_obj_set_style_border_color(btn_minus, COLOR_TEXT_BLUE, 0);  // 蓝色边框
 	lv_obj_set_style_border_width(btn_minus, 2, 0);  // 边框宽度2像素
@@ -298,7 +238,7 @@ static lv_obj_t* create_left_panel(lv_obj_t* parent) {
 	lv_obj_t* container2 = lv_obj_create(parent);
 	lv_obj_set_size(container2, 222, 35);
 	lv_obj_set_pos(container2, x_offset, y_offset);
-	lv_obj_set_style_bg_color(container2, lv_color_hex(0xE6F2FF), 0);  // 更接近图片的浅蓝色
+	lv_obj_set_style_bg_color(container2, COLOR_TITLE_BG, 0);  // 更接近图片的浅蓝色
 	lv_obj_set_style_bg_opa(container2, LV_OPA_100, 0);
 	lv_obj_set_style_border_width(container2, 0, 0);
 	lv_obj_set_style_radius(container2, 6, 0);	// 圆角稍大
@@ -313,15 +253,15 @@ static lv_obj_t* create_left_panel(lv_obj_t* parent) {
 	// 焊接标签
 	lv_obj_t* weld_label = lv_label_create(container2);
 	lv_obj_set_style_text_font(weld_label, &lv_font_welder_20, 0);
-	lv_obj_set_style_text_color(weld_label, lv_color_hex(0x003366), 0);
+	lv_obj_set_style_text_color(weld_label, COLOR_TEXT_BLUE, 0);
 	lv_label_set_text(weld_label, "焊接:");
 	
 	// 焊接数值框
 	weld_count_label = lv_label_create(container2);
 	lv_obj_set_size(weld_count_label, 50, 25);	// 高度调小，不要充满容器
 	lv_obj_set_style_text_font(weld_count_label, &lv_font_welder_20, 0);
-	lv_obj_set_style_text_color(weld_count_label, lv_color_white(), 0);
-	lv_obj_set_style_bg_color(weld_count_label, lv_color_black(), 0);
+	lv_obj_set_style_text_color(weld_count_label, COLOR_WHITE, 0);
+	lv_obj_set_style_bg_color(weld_count_label, COLOR_BLACK, 0);
 	lv_obj_set_style_bg_opa(weld_count_label, LV_OPA_100, 0);
 	lv_obj_set_style_text_align(weld_count_label, LV_TEXT_ALIGN_CENTER, 0);
 	lv_obj_set_style_pad_ver(weld_count_label, 3, 0);
@@ -331,15 +271,15 @@ static lv_obj_t* create_left_panel(lv_obj_t* parent) {
 	// 未完成标签
 	lv_obj_t* remain_label = lv_label_create(container2);
 	lv_obj_set_style_text_font(remain_label, &lv_font_welder_20, 0);
-	lv_obj_set_style_text_color(remain_label, lv_color_hex(0x003366), 0);
+	lv_obj_set_style_text_color(remain_label, COLOR_TEXT_BLUE, 0);
 	lv_label_set_text(remain_label, "未完成:");
 	
 	// 未完成数值框
 	remain_dot_label = lv_label_create(container2);
 	lv_obj_set_size(remain_dot_label, 50, 25);	// 高度调小，不要充满容器
 	lv_obj_set_style_text_font(remain_dot_label, &lv_font_welder_20, 0);
-	lv_obj_set_style_text_color(remain_dot_label, lv_color_white(), 0);
-	lv_obj_set_style_bg_color(remain_dot_label, lv_color_black(), 0);
+	lv_obj_set_style_text_color(remain_dot_label, COLOR_WHITE, 0);
+	lv_obj_set_style_bg_color(remain_dot_label, COLOR_BLACK, 0);
 	lv_obj_set_style_bg_opa(remain_dot_label, LV_OPA_100, 0);
 	lv_obj_set_style_text_align(remain_dot_label, LV_TEXT_ALIGN_CENTER, 0);
 	lv_obj_set_style_pad_ver(remain_dot_label, 3, 0);
@@ -368,19 +308,19 @@ static lv_obj_t* create_right_panel(lv_obj_t* parent) {
 	lv_obj_t* image_label = lv_label_create(parent);
 	// 1. 设置背景（横向浅蓝色矩形）
 	lv_obj_set_size(image_label, 162, 35);
-	lv_obj_set_style_bg_color(image_label, lv_color_hex(0xE6F2FF), 0);  // 浅蓝色背景
+	lv_obj_set_style_bg_color(image_label, COLOR_TITLE_BG, 0);  // 浅蓝色背景
 	lv_obj_set_style_bg_opa(image_label, LV_OPA_100, 0);
 	lv_obj_set_style_radius(image_label, 4, 0);	// 圆角
 	// 2. 设置文字样式
 	lv_obj_set_style_text_font(image_label, &lv_font_welder_20, 0);
-	lv_obj_set_style_text_color(image_label, lv_color_hex(0x003366), 0);  // 深蓝色
+	lv_obj_set_style_text_color(image_label, COLOR_TEXT_BLUE, 0);  // 深蓝色
 	lv_obj_set_style_text_align(image_label, LV_TEXT_ALIGN_CENTER, 0);
 	// 3. 内边距帮助垂直居中
 	lv_obj_set_style_pad_all(image_label, 8, 0);
 	// 4. 位置
 	lv_obj_set_pos(image_label, x_offset, y_offset);
 	// 5. 设置文字
-	lv_label_set_text(image_label, "批次生产数:");
+	lv_label_set_text(image_label, "批次生产数");
 
 	y_offset += 38;
 	// 整个组件的容器
@@ -396,7 +336,7 @@ static lv_obj_t* create_right_panel(lv_obj_t* parent) {
 	// 加按钮
 	lv_obj_t* btn_plus = lv_btn_create(container);
 	lv_obj_set_size(btn_plus, 40, 30);
-	lv_obj_set_style_bg_color(btn_plus, lv_color_white(), 0);
+	lv_obj_set_style_bg_color(btn_plus, COLOR_WHITE, 0);
 	lv_obj_set_style_bg_opa(btn_plus, LV_OPA_100, 0);
 	lv_obj_set_style_border_color(btn_plus, COLOR_TEXT_BLUE, 0);  // 蓝色边框
 	lv_obj_set_style_border_width(btn_plus, 2, 0);
@@ -410,9 +350,9 @@ static lv_obj_t* create_right_panel(lv_obj_t* parent) {
 	// 数据框
 	lv_obj_t* data_box = lv_label_create(container);
 	lv_obj_set_size(data_box, 70, 30);
-	lv_obj_set_style_bg_color(data_box, COLOR_DATA_BG, 0);
+	lv_obj_set_style_bg_color(data_box, COLOR_BLACK, 0);
 	lv_obj_set_style_bg_opa(data_box, LV_OPA_100, 0);
-	lv_obj_set_style_text_color(data_box, COLOR_DATA_TEXT, 0);
+	lv_obj_set_style_text_color(data_box, COLOR_WHITE, 0);
 	lv_obj_set_style_text_font(data_box, &lv_font_montserrat_24, 0);
 	lv_obj_set_style_text_align(data_box, LV_TEXT_ALIGN_CENTER, 0);
 	// 全局变量保存引用
@@ -422,7 +362,7 @@ static lv_obj_t* create_right_panel(lv_obj_t* parent) {
 	// 减按钮
 	lv_obj_t* btn_minus = lv_btn_create(container);
 	lv_obj_set_size(btn_minus, 40, 30);
-	lv_obj_set_style_bg_color(btn_minus, lv_color_white(), 0);
+	lv_obj_set_style_bg_color(btn_minus, COLOR_WHITE, 0);
 	lv_obj_set_style_bg_opa(btn_minus, LV_OPA_100, 0);
 	lv_obj_set_style_border_color(btn_minus, COLOR_TEXT_BLUE, 0);  // 蓝色边框
 	lv_obj_set_style_border_width(btn_minus, 2, 0);
@@ -439,7 +379,7 @@ static lv_obj_t* create_right_panel(lv_obj_t* parent) {
 	lv_obj_t* container2 = lv_obj_create(parent);
 	lv_obj_set_size(container2, 222, 35);
 	lv_obj_set_pos(container2, x_offset, y_offset);  // 右侧起始位置
-	lv_obj_set_style_bg_color(container2, lv_color_hex(0xE6F2FF), 0);
+	lv_obj_set_style_bg_color(container2, COLOR_TITLE_BG, 0);
 	lv_obj_set_style_bg_opa(container2, LV_OPA_100, 0);
 	lv_obj_set_style_border_width(container2, 0, 0);
 	lv_obj_set_style_radius(container2, 6, 0);
@@ -454,33 +394,34 @@ static lv_obj_t* create_right_panel(lv_obj_t* parent) {
 	// 目标标签
 	lv_obj_t* target_label = lv_label_create(container2);
 	lv_obj_set_style_text_font(target_label, &lv_font_welder_20, 0);
-	lv_obj_set_style_text_color(target_label, lv_color_hex(0x003366), 0);
+	lv_obj_set_style_text_color(target_label, COLOR_TEXT_BLUE, 0);
 	lv_label_set_text(target_label, "目标:");
-	
+
 	// 目标数值框
 	target_count_label = lv_label_create(container2);
 	lv_obj_set_size(target_count_label, 50, 25);
 	lv_obj_set_style_text_font(target_count_label, &lv_font_welder_20, 0);
-	lv_obj_set_style_text_color(target_count_label, lv_color_white(), 0);
-	lv_obj_set_style_bg_color(target_count_label, lv_color_black(), 0);
+	lv_obj_set_style_text_color(target_count_label, COLOR_WHITE, 0);
+	lv_obj_set_style_bg_color(target_count_label, COLOR_BLACK, 0);
 	lv_obj_set_style_bg_opa(target_count_label, LV_OPA_100, 0);
 	lv_obj_set_style_text_align(target_count_label, LV_TEXT_ALIGN_CENTER, 0);
 	lv_obj_set_style_pad_ver(target_count_label, 3, 0);
+	lv_obj_set_style_radius(target_count_label, 0, LV_PART_MAIN); // 防止圆角抗锯齿露底
 	lv_label_set_text_fmt(target_count_label, "%d", target_count);
-	
+
 	// 第二组：未完成
 	// 未完成标签
 	lv_obj_t* remain_image_label = lv_label_create(container2);
 	lv_obj_set_style_text_font(remain_image_label, &lv_font_welder_20, 0);
-	lv_obj_set_style_text_color(remain_image_label, lv_color_hex(0x003366), 0);
+	lv_obj_set_style_text_color(remain_image_label, COLOR_TEXT_BLUE, 0);
 	lv_label_set_text(remain_image_label, "未完成:");
-	
+
 	// 未完成图像数值框
 	remain_image_count_label = lv_label_create(container2);
 	lv_obj_set_size(remain_image_count_label, 50, 25);
 	lv_obj_set_style_text_font(remain_image_count_label, &lv_font_welder_20, 0);
-	lv_obj_set_style_text_color(remain_image_count_label, lv_color_white(), 0);
-	lv_obj_set_style_bg_color(remain_image_count_label, lv_color_black(), 0);
+	lv_obj_set_style_text_color(remain_image_count_label, COLOR_WHITE, 0);
+	lv_obj_set_style_bg_color(remain_image_count_label, COLOR_BLACK, 0);
 	lv_obj_set_style_bg_opa(remain_image_count_label, LV_OPA_100, 0);
 	lv_obj_set_style_text_align(remain_image_count_label, LV_TEXT_ALIGN_CENTER, 0);
 	lv_obj_set_style_pad_ver(remain_image_count_label, 3, 0);
@@ -500,11 +441,10 @@ static lv_obj_t* create_spec_panel(lv_obj_t* parent) {
     lv_obj_set_size(panel, 82, 110);
 	lv_obj_set_pos(panel, 395, 67);
 
-    lv_obj_set_style_bg_color(panel, COLOR_SPEC_BG, 0);
+    lv_obj_set_style_bg_color(panel, COLOR_TITLE_BG, 0);
     lv_obj_set_style_bg_opa(panel, LV_OPA_100, 0);
     lv_obj_set_style_radius(panel, 10, 0);
-    lv_obj_set_style_border_width(panel, 1, 0);
-    lv_obj_set_style_border_color(panel, COLOR_BORDER, 0);
+    lv_obj_set_style_border_width(panel, 0, 0);
     lv_obj_clear_flag(panel, LV_OBJ_FLAG_SCROLLABLE);
     
     // 标题
@@ -533,14 +473,14 @@ static void create_bottom_buttons(lv_obj_t* parent) {
     lv_obj_t* btn_func = lv_btn_create(parent);
     lv_obj_set_size(btn_func, 100, 40);
 	lv_obj_set_pos(btn_func, x_offset, 230);
-    lv_obj_set_style_bg_color(btn_func, lv_color_hex(0x3399FF), 0);
+    lv_obj_set_style_bg_color(btn_func, COLOR_TITLE_BG, 0);
     lv_obj_set_style_radius(btn_func, 8, 0);
     lv_obj_set_style_shadow_width(btn_func, 5, 0);
     lv_obj_set_style_shadow_spread(btn_func, 2, 0);
     
     lv_obj_t* btn_func_label = lv_label_create(btn_func);
     lv_obj_set_style_text_font(btn_func_label, &lv_font_welder_20, 0);
-    lv_obj_set_style_text_color(btn_func_label, lv_color_white(), 0);
+    lv_obj_set_style_text_color(btn_func_label, COLOR_TEXT_BLUE, 0);
     lv_label_set_text(btn_func_label, "功能选择");
     lv_obj_center(btn_func_label);
 
@@ -549,14 +489,14 @@ static void create_bottom_buttons(lv_obj_t* parent) {
     lv_obj_t* btn_weld = lv_btn_create(parent);
     lv_obj_set_size(btn_weld, 80, 40);
 	lv_obj_set_pos(btn_weld, x_offset, 230);
-    lv_obj_set_style_bg_color(btn_weld, lv_color_hex(0x3399FF), 0);
-    lv_obj_set_style_radius(btn_weld, 8, 0);
-    lv_obj_set_style_shadow_width(btn_weld, 5, 0);
-    lv_obj_set_style_shadow_spread(btn_weld, 2, 0);
+    lv_obj_set_style_bg_color(btn_weld, COLOR_WHITE, 0);
+    lv_obj_set_style_radius(btn_weld, 0, 0);
+    lv_obj_set_style_shadow_width(btn_weld, 0, 0);
+    lv_obj_set_style_shadow_spread(btn_weld, 0, 0);
     
     lv_obj_t* btn_weld_label = lv_label_create(btn_weld);
     lv_obj_set_style_text_font(btn_weld_label, &lv_font_welder_20, 0);
-    lv_obj_set_style_text_color(btn_weld_label, lv_color_white(), 0);
+    lv_obj_set_style_text_color(btn_weld_label, COLOR_TEXT_BLUE, 0);
     lv_label_set_text(btn_weld_label, "焊接");
     lv_obj_center(btn_weld_label);
     
@@ -570,11 +510,8 @@ static void create_bottom_buttons(lv_obj_t* parent) {
 void create_main_control_screen(void) {
 	scr = lv_obj_create(NULL);
 
-    lv_obj_set_style_bg_color(scr, COLOR_BG, 0);
+    lv_obj_set_style_bg_color(scr, COLOR_WHITE, 0);
     lv_obj_set_style_bg_opa(scr, LV_OPA_100, 0);
-    
-    // 创建样式
-    create_styles();
     
     // 创建各个区域
     create_title_area(scr);

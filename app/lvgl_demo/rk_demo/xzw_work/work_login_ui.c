@@ -13,6 +13,7 @@
 #include "main.h"
 #include "work_login_ui.h"
 #include "ui_resource.h"
+#include "work_color.h"
 
 extern lv_style_t style_txt_l;
 lv_style_t style_btn;
@@ -264,17 +265,6 @@ static void create_input_field_horizontal(const char* label_text, const char* pl
  */
 static void create_buttons_horizontal(void)
 {
-    // 取消按钮
-    lv_obj_t *btn_cancel = lv_btn_create(login_scr);
-    lv_obj_set_size(btn_cancel, 90, 40);
-    lv_obj_set_pos(btn_cancel, 370, 202);
-    lv_obj_add_style(btn_cancel, &style_btn, 0);
-    
-    lv_obj_t *lbl_cancel = lv_label_create(btn_cancel);
-    lv_label_set_text(lbl_cancel, "Cancel");
-    lv_obj_set_style_text_color(lbl_cancel, lv_color_white(), 0);
-    lv_obj_center(lbl_cancel);
-    
     // 登录按钮
     lv_obj_t *btn_login = lv_btn_create(login_scr);
     lv_obj_set_size(btn_login, 90, 40);
@@ -288,7 +278,6 @@ static void create_buttons_horizontal(void)
     
     // 按钮事件
     lv_obj_add_event_cb(btn_login, btn_login_event_cb, LV_EVENT_CLICKED, NULL);
-    lv_obj_add_event_cb(btn_cancel, btn_cancel_event_cb, LV_EVENT_CLICKED, NULL);
 }
 
 // 键盘按钮回调
@@ -440,7 +429,7 @@ static void create_login_screen_horizontal(void)
     login_scr = lv_obj_create(NULL);
     
     // 设置横屏背景
-    lv_obj_set_style_bg_color(login_scr, lv_color_hex(0xF0F4F8), 0);
+    lv_obj_set_style_bg_color(login_scr, lv_color_hex(0xC6C6C6), 0);
     lv_obj_set_size(login_scr, 480, 272);
     
     // 创建标题

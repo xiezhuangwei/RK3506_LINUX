@@ -13,6 +13,7 @@
 #include "main.h"
 #include "work_func_chose_ui.h"
 #include "ui_resource.h"
+#include "work_color.h"
 
 extern lv_style_t style_txt_l;
 
@@ -110,8 +111,8 @@ static lv_obj_t* create_left_panel(lv_obj_t* parent) {
     lv_obj_set_size(btn_primary, 105, 35);
     lv_obj_set_style_bg_color(btn_primary, lv_color_black(), 0);
     lv_obj_set_style_bg_opa(btn_primary, LV_OPA_100, 0);
-    lv_obj_set_style_radius(btn_primary, 5, 0);
-    lv_obj_set_style_border_width(btn_primary, 1, 0);
+    lv_obj_set_style_radius(btn_primary, 0, 0);
+    lv_obj_set_style_border_width(btn_primary, 0, 0);
     lv_obj_set_style_border_color(btn_primary, COLOR_BORDER, 0);
     lv_obj_set_pos(btn_primary, 0, y_offset);
     
@@ -128,8 +129,8 @@ static lv_obj_t* create_left_panel(lv_obj_t* parent) {
     lv_obj_set_size(btn_intermediate, 105, 35);
     lv_obj_set_style_bg_color(btn_intermediate, COLOR_BG_YELLOW, 0);
     lv_obj_set_style_bg_opa(btn_intermediate, LV_OPA_100, 0);
-    lv_obj_set_style_radius(btn_intermediate, 5, 0);
-    lv_obj_set_style_border_width(btn_intermediate, 1, 0);
+    lv_obj_set_style_radius(btn_intermediate, 0, 0);
+    lv_obj_set_style_border_width(btn_intermediate, 0, 0);
     lv_obj_set_style_border_color(btn_intermediate, COLOR_BORDER, 0);
     lv_obj_set_pos(btn_intermediate, 0, y_offset);
     
@@ -146,8 +147,8 @@ static lv_obj_t* create_left_panel(lv_obj_t* parent) {
     lv_obj_set_size(btn_advanced, 105, 35);
     lv_obj_set_style_bg_color(btn_advanced, lv_color_black(), 0);
     lv_obj_set_style_bg_opa(btn_advanced, LV_OPA_100, 0);
-    lv_obj_set_style_radius(btn_advanced, 5, 0);
-    lv_obj_set_style_border_width(btn_advanced, 1, 0);
+    lv_obj_set_style_radius(btn_advanced, 0, 0);
+    lv_obj_set_style_border_width(btn_advanced, 0, 0);
     lv_obj_set_style_border_color(btn_advanced, COLOR_BORDER, 0);
     lv_obj_set_pos(btn_advanced, 0, y_offset);
     
@@ -164,8 +165,8 @@ static lv_obj_t* create_left_panel(lv_obj_t* parent) {
     lv_obj_set_size(btn_password, 105, 35);
     lv_obj_set_style_bg_color(btn_password, COLOR_BG_BLUE, 0);
     lv_obj_set_style_bg_opa(btn_password, LV_OPA_100, 0);
-    lv_obj_set_style_radius(btn_password, 5, 0);
-    lv_obj_set_style_border_width(btn_password, 1, 0);
+    lv_obj_set_style_radius(btn_password, 0, 0);
+    lv_obj_set_style_border_width(btn_password, 0, 0);
     lv_obj_set_style_border_color(btn_password, COLOR_BORDER, 0);
     lv_obj_set_pos(btn_password, 0, y_offset);
     
