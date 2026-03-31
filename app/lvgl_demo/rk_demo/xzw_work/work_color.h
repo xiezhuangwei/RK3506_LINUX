@@ -33,7 +33,6 @@
 #define COLOR_DEEP_BLUE     lv_color_hex(0x1a2b5f)    // 深蓝
 #define COLOR_DARK_BLUE     lv_color_hex(0x2C3E50)    // 深蓝背景色
 #define COLOR_BLUE          lv_color_hex(0x1E6FA5)    // 蓝色
-#define COLOR_TEXT_BLUE     lv_color_hex(0x2196F3)    // 蓝色文字
 
 // 浅蓝色系
 #define COLOR_LIGHT_BLUE    lv_color_hex(0x4a7bd9)    // 浅蓝
@@ -41,6 +40,8 @@
 #define COLOR_BG_LIGHT_BLUE lv_color_hex(0xADD8E6)    // 浅蓝色背景
 #define COLOR_CYAN          lv_color_hex(0x1E90FF)    // 青色
 #define COLOR_LIGHT_CYAN    lv_color_hex(0x87CEEB)    // 浅青色
+#define COLOR_TITLE_BG    	lv_color_hex(0xA3ECFA)      // 浅蓝色标题背景
+#define COLOR_TEXT_BLUE   	lv_color_hex(0x0066CC)      // 蓝色文字
 
 /**********************
  * 功能色
@@ -53,6 +54,7 @@
 #define COLOR_ORANGE        lv_color_hex(0xFF6B35)    // 橙色
 #define COLOR_GREEN         lv_color_hex(0x00FF00)    // 绿色（正常）
 #define COLOR_WAVEFORM_GREEN lv_color_hex(0x00FF00)   // 波形绿色
+#define COLOR_LITE_GREEN    lv_color_hex(0xE8F5E9)    // 浅绿色
 #define COLOR_BG_YELLOW     lv_color_hex(0xFFCC00)    // 黄色背景
 
 /**********************

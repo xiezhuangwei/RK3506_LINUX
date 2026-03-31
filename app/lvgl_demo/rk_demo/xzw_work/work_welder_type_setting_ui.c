@@ -92,37 +92,30 @@ static lv_obj_t* work_create_top_title(lv_obj_t* parent) {
     lv_obj_set_pos(title_bar, 0, 0);
     lv_obj_clear_flag(title_bar, LV_OBJ_FLAG_SCROLLABLE);
     
-    // 水平渐变背景
     static lv_style_t style_bar;
     lv_style_init(&style_bar);
     lv_style_set_bg_opa(&style_bar, LV_OPA_100);
-    lv_style_set_bg_color(&style_bar, COLOR_DEEP_BLUE);
-    lv_style_set_bg_grad_color(&style_bar, COLOR_LIGHT_BLUE);
-    lv_style_set_bg_grad_dir(&style_bar, LV_GRAD_DIR_HOR);
-    // 重要：设置渐变停止点，使渐变更均匀
-    lv_style_set_bg_grad_stop(&style_bar, 128);  // 中间停止点
-    // 可选：添加模糊效果使渐变更平滑
-    lv_style_set_blend_mode(&style_bar, LV_BLEND_MODE_NORMAL);
+    lv_style_set_bg_color(&style_bar, COLOR_BG_BLUE);
     lv_obj_add_style(title_bar, &style_bar, 0);
     
     // 左下角白色标签
     lv_obj_t* tag_bg = lv_obj_create(title_bar);
     lv_obj_set_size(tag_bg, 130, 26);
-    lv_obj_set_style_bg_color(tag_bg, lv_color_white(), 0);
+    lv_obj_set_style_bg_color(tag_bg, COLOR_WHITE, 0);
     lv_obj_set_style_bg_opa(tag_bg, LV_OPA_100, 0);
     lv_obj_set_style_radius(tag_bg, 4, 0);
     lv_obj_set_style_border_width(tag_bg, 0, 0);
     lv_obj_set_pos(tag_bg, 2, 6);
-    
+	lv_obj_clear_flag(tag_bg, LV_OBJ_FLAG_SCROLLABLE);
+	
     // 橙色文字
     lv_obj_t* label = lv_label_create(tag_bg);
     lv_obj_set_style_text_font(label, &lv_font_welder_20, 0);
-    lv_obj_set_style_text_color(label, lv_color_hex(0xFF6B35), 0);
+    lv_obj_set_style_text_color(label, COLOR_ORANGE, 0);
     lv_label_set_text(label, "焊机类型设置");
     lv_obj_center(label);
-    
-    return title_bar;
-    return title_bar;
+	lv_obj_clear_flag(label, LV_OBJ_FLAG_SCROLLABLE);  
+    return title_bar;    
 }
 
 // 创建焊机类型选择按钮
@@ -134,11 +127,9 @@ static lv_obj_t* work_create_welder_type_button(lv_obj_t* parent, int x, int y, 
     lv_obj_set_style_bg_color(btn, color, 0);
     lv_obj_set_style_bg_color(btn, lv_color_darken(color, 50), LV_STATE_PRESSED);
     lv_obj_set_style_radius(btn, 8, 0);
-    lv_obj_set_style_border_width(btn, 2, 0);
-    lv_obj_set_style_border_color(btn, lv_color_darken(color, 20), 0);
-    lv_obj_set_style_shadow_width(btn, 8, 0);
-    lv_obj_set_style_shadow_spread(btn, 3, 0);
-    lv_obj_set_style_shadow_color(btn, lv_color_darken(color, 30), 0);
+    lv_obj_set_style_border_width(btn, 0, 0);
+    lv_obj_set_style_shadow_width(btn, 0, 0);
+    lv_obj_set_style_shadow_spread(btn, 0, 0);
     
     // 添加事件回调
     if (event_cb) {
@@ -164,11 +155,9 @@ static lv_obj_t* work_create_return_button(lv_obj_t* parent, int x, int y, int w
     lv_obj_set_style_bg_color(btn, COLOR_ORANGE, 0);
     lv_obj_set_style_bg_color(btn, lv_color_darken(COLOR_ORANGE, 50), LV_STATE_PRESSED);
     lv_obj_set_style_radius(btn, 8, 0);
-    lv_obj_set_style_border_width(btn, 2, 0);
-    lv_obj_set_style_border_color(btn, lv_color_darken(COLOR_ORANGE, 20), 0);
-    lv_obj_set_style_shadow_width(btn, 8, 0);
-    lv_obj_set_style_shadow_spread(btn, 3, 0);
-    lv_obj_set_style_shadow_color(btn, lv_color_darken(COLOR_ORANGE, 30), 0);
+    lv_obj_set_style_border_width(btn, 0, 0);
+    lv_obj_set_style_shadow_width(btn, 0, 0);
+    lv_obj_set_style_shadow_spread(btn, 0, 0);
     
     // 添加事件回调
     lv_obj_add_event_cb(btn, return_btn_event, LV_EVENT_CLICKED, NULL);

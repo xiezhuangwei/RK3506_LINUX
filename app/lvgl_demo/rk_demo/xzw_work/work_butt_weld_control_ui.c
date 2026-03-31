@@ -30,14 +30,10 @@ static lv_obj_t* work_create_top_title(lv_obj_t* parent) {
     lv_obj_set_pos(title_bar, 0, 0);
     lv_obj_clear_flag(title_bar, LV_OBJ_FLAG_SCROLLABLE);
     
-    // 水平渐变背景
     static lv_style_t style_bar;
     lv_style_init(&style_bar);
     lv_style_set_bg_opa(&style_bar, LV_OPA_100);
-    lv_style_set_bg_color(&style_bar, COLOR_DEEP_BLUE);
-    lv_style_set_bg_grad_color(&style_bar, COLOR_LIGHT_BLUE);
-    lv_style_set_bg_grad_dir(&style_bar, LV_GRAD_DIR_HOR);
-    lv_style_set_bg_grad_stop(&style_bar, 128);
+    lv_style_set_bg_color(&style_bar, COLOR_BG_BLUE);
     lv_obj_add_style(title_bar, &style_bar, 0);
     
     // 左下角白色标签
@@ -48,15 +44,16 @@ static lv_obj_t* work_create_top_title(lv_obj_t* parent) {
     lv_obj_set_style_radius(tag_bg, 4, 0);
     lv_obj_set_style_border_width(tag_bg, 0, 0);
     lv_obj_set_pos(tag_bg, 2, 6);
-    
+	lv_obj_clear_flag(tag_bg, LV_OBJ_FLAG_SCROLLABLE);
+	
     // 橙色文字
     lv_obj_t* label = lv_label_create(tag_bg);
     lv_obj_set_style_text_font(label, &lv_font_welder_20, 0);
     lv_obj_set_style_text_color(label, COLOR_ORANGE, 0);
     lv_label_set_text(label, "对焊控制方式设置");
     lv_obj_center(label);
-    
-    return title_bar;
+	lv_obj_clear_flag(label, LV_OBJ_FLAG_SCROLLABLE);  
+    return title_bar;      
 }
 
 // 创建焊机类型显示区域
@@ -193,7 +190,7 @@ static void work_create_butt_weld_control_interface(void) {
     scr = lv_obj_create(NULL);
     
     // 设置屏幕背景色
-    lv_obj_set_style_bg_color(scr, COLOR_LIGHT_GRAY, 0);
+    lv_obj_set_style_bg_color(scr, COLOR_WHITE, 0);
     lv_obj_set_style_bg_opa(scr, LV_OPA_100, 0);
     lv_obj_set_style_border_width(scr, 0, 0);
     lv_obj_set_style_pad_all(scr, 0, 0);

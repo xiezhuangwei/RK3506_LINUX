@@ -44,35 +44,29 @@ static lv_obj_t* create_top_title(lv_obj_t* parent) {
     lv_obj_set_pos(title_bar, 0, 0);
     lv_obj_clear_flag(title_bar, LV_OBJ_FLAG_SCROLLABLE);
     
-    // 水平渐变背景
     static lv_style_t style_bar;
     lv_style_init(&style_bar);
     lv_style_set_bg_opa(&style_bar, LV_OPA_100);
-    lv_style_set_bg_color(&style_bar, COLOR_DEEP_BLUE);
-    lv_style_set_bg_grad_color(&style_bar, COLOR_LIGHT_BLUE);
-    lv_style_set_bg_grad_dir(&style_bar, LV_GRAD_DIR_HOR);
-    // 重要：设置渐变停止点，使渐变更均匀
-    lv_style_set_bg_grad_stop(&style_bar, 128);  // 中间停止点
-    // 可选：添加模糊效果使渐变更平滑
-    lv_style_set_blend_mode(&style_bar, LV_BLEND_MODE_NORMAL);
+    lv_style_set_bg_color(&style_bar, COLOR_BG_BLUE);
     lv_obj_add_style(title_bar, &style_bar, 0);
     
     // 左下角白色标签
     lv_obj_t* tag_bg = lv_obj_create(title_bar);
     lv_obj_set_size(tag_bg, 90, 26);
-    lv_obj_set_style_bg_color(tag_bg, lv_color_white(), 0);
+    lv_obj_set_style_bg_color(tag_bg, COLOR_WHITE, 0);
     lv_obj_set_style_bg_opa(tag_bg, LV_OPA_100, 0);
     lv_obj_set_style_radius(tag_bg, 4, 0);
     lv_obj_set_style_border_width(tag_bg, 0, 0);
     lv_obj_set_pos(tag_bg, 2, 6);
-    
+	lv_obj_clear_flag(tag_bg, LV_OBJ_FLAG_SCROLLABLE);
+	
     // 橙色文字
     lv_obj_t* label = lv_label_create(tag_bg);
     lv_obj_set_style_text_font(label, &lv_font_welder_20, 0);
-    lv_obj_set_style_text_color(label, lv_color_hex(0xFF6B35), 0);
+    lv_obj_set_style_text_color(label, COLOR_ORANGE, 0);
     lv_label_set_text(label, "监测画面");
     lv_obj_center(label);
-    
+	lv_obj_clear_flag(label, LV_OBJ_FLAG_SCROLLABLE);  
     return title_bar;
 }
 
@@ -109,7 +103,7 @@ static void create_fine_tune_area(lv_obj_t* parent) {
     lv_obj_t* current_label = lv_label_create(current_part);
     lv_label_set_text(current_label, "次级电流(    /DIV)");
     lv_obj_set_style_text_font(current_label, &lv_font_welder_12, 0);
-    lv_obj_set_style_text_color(current_label, lv_color_make(0, 100, 200), 0);
+    lv_obj_set_style_text_color(current_label, COLOR_BLUE, 0);
     lv_obj_align(current_label, LV_ALIGN_LEFT_MID - 20, 0, 0);
     
     // 微调部分
@@ -123,7 +117,7 @@ static void create_fine_tune_area(lv_obj_t* parent) {
     lv_obj_t* tune_label = lv_label_create(tune_part);
     lv_label_set_text(tune_label, "微调(A:      B:      C:      )");
     lv_obj_set_style_text_font(tune_label, &lv_font_welder_12, 0);
-    lv_obj_set_style_text_color(tune_part, lv_color_make(0, 100, 200), 0);
+    lv_obj_set_style_text_color(tune_part, COLOR_BLUE, 0);
     lv_obj_align(tune_label, LV_ALIGN_RIGHT_MID - 50, 0, 0);
     
     // 如果需要显示参数值，可以另外添加
@@ -145,7 +139,7 @@ static void create_waveform_display_area(lv_obj_t* parent) {
     lv_obj_set_pos(waveform_area, x, y);
     
     // LVGL 8.x 样式设置方式
-    lv_obj_set_style_bg_color(waveform_area, lv_color_black(), 0);
+    lv_obj_set_style_bg_color(waveform_area, COLOR_BLACK, 0);
     lv_obj_set_style_bg_opa(waveform_area, LV_OPA_100, 0);
     lv_obj_set_style_border_width(waveform_area, 0, 0);
     lv_obj_set_style_radius(waveform_area, 0, 0);
@@ -157,7 +151,7 @@ static void create_waveform_display_area(lv_obj_t* parent) {
     // 2. 创建网格线样式
     static lv_style_t style_grid;
     lv_style_init(&style_grid);
-    lv_style_set_line_color(&style_grid, lv_color_hex(0xFF0000));
+    lv_style_set_line_color(&style_grid, COLOR_RED);
     lv_style_set_line_width(&style_grid, 1);
     lv_style_set_line_opa(&style_grid, LV_OPA_100);
     lv_style_set_line_rounded(&style_grid, false);
@@ -200,7 +194,7 @@ static void create_waveform_display_area(lv_obj_t* parent) {
     // 5. 刻度标签
     static lv_style_t style_label;
     lv_style_init(&style_label);
-    lv_style_set_text_color(&style_label, lv_color_hex(0x000000));
+    lv_style_set_text_color(&style_label, COLOR_BLACK);
     lv_style_set_text_font(&style_label, &lv_font_montserrat_12);
     
     // 左侧Y轴标签
@@ -235,10 +229,10 @@ static void create_current_detection_area(lv_obj_t* parent) {
     lv_obj_t* detection_container = lv_obj_create(parent);
     lv_obj_set_size(detection_container, width, height);
     lv_obj_set_pos(detection_container, x, y);
-    lv_obj_set_style_bg_color(detection_container, lv_color_white(), 0);
+    lv_obj_set_style_bg_color(detection_container, COLOR_WHITE, 0);
     lv_obj_set_style_bg_opa(detection_container, LV_OPA_100, 0);
     lv_obj_set_style_border_width(detection_container, 2, 0);
-    lv_obj_set_style_border_color(detection_container, lv_color_hex(0x1E90FF), 0);
+    lv_obj_set_style_border_color(detection_container, COLOR_BLUE, 0);
     lv_obj_set_style_radius(detection_container, 5, 0);
     lv_obj_set_style_pad_all(detection_container, 0, 0);
     lv_obj_clear_flag(detection_container, LV_OBJ_FLAG_SCROLLABLE);
@@ -247,7 +241,7 @@ static void create_current_detection_area(lv_obj_t* parent) {
     lv_obj_t* title_bar = lv_obj_create(detection_container);
     lv_obj_set_size(title_bar, width, 24);
     lv_obj_set_pos(title_bar, 0, 0);
-    lv_obj_set_style_bg_color(title_bar, lv_color_hex(0x1E6FA5), 0);  // 深蓝色背景
+    lv_obj_set_style_bg_color(title_bar, COLOR_BG_BLUE, 0);  // 深蓝色背景
     lv_obj_set_style_bg_opa(title_bar, LV_OPA_100, 0);
     lv_obj_set_style_border_width(title_bar, 0, 0);
     lv_obj_set_style_radius(title_bar, 0, 0);
@@ -257,7 +251,7 @@ static void create_current_detection_area(lv_obj_t* parent) {
     lv_obj_t* title_label = lv_label_create(title_bar);
     lv_label_set_text(title_label, "电流检测");
     lv_obj_set_style_text_font(title_label, &lv_font_welder_16, 0);
-    lv_obj_set_style_text_color(title_label, lv_color_white(), 0);
+    lv_obj_set_style_text_color(title_label, COLOR_WHITE, 0);
     lv_obj_align(title_label, LV_ALIGN_CENTER, 0, 0);
     
     // 三行布局参数
@@ -280,10 +274,10 @@ static void create_current_detection_area(lv_obj_t* parent) {
         lv_obj_t* label_container = lv_obj_create(detection_container);
         lv_obj_set_size(label_container, label_width, row_height-2);
         lv_obj_set_pos(label_container, 1, row_y);
-        lv_obj_set_style_bg_color(label_container, lv_color_hex(0x808080), 0);
+        lv_obj_set_style_bg_color(label_container, COLOR_GRAY, 0);
         lv_obj_set_style_bg_opa(label_container, LV_OPA_100, 0);
         lv_obj_set_style_border_width(label_container, 1, 0);
-        lv_obj_set_style_border_color(label_container, lv_color_hex(0x606060), 0); 
+        lv_obj_set_style_border_color(label_container, COLOR_BLACK, 0); 
         lv_obj_set_style_radius(label_container, 0, 0);
         lv_obj_set_style_pad_all(label_container, 0, 0);
         
@@ -295,14 +289,14 @@ static void create_current_detection_area(lv_obj_t* parent) {
         lv_obj_t* char1 = lv_label_create(label_container);
         lv_label_set_text(char1, "电");
         lv_obj_set_style_text_font(char1, &lv_font_welder_12, 0);
-        lv_obj_set_style_text_color(char1, lv_color_black(), 0);
+        lv_obj_set_style_text_color(char1, COLOR_BLACK, 0);
         lv_obj_set_pos(char1, 1, char_y);
         
         // 显示"流"  
         lv_obj_t* char2 = lv_label_create(label_container);
         lv_label_set_text(char2, "流");
         lv_obj_set_style_text_font(char2, &lv_font_welder_12, 0);
-        lv_obj_set_style_text_color(char2, lv_color_black(), 0);
+        lv_obj_set_style_text_color(char2, COLOR_BLACK, 0);
         lv_obj_set_pos(char2, 1, char_y + char_height);
         
         // 显示数字（1,2,3）
@@ -311,21 +305,21 @@ static void create_current_detection_area(lv_obj_t* parent) {
         lv_obj_t* char3 = lv_label_create(label_container);
         lv_label_set_text(char3, num_str);
         lv_obj_set_style_text_font(char3, &lv_font_welder_12, 0);
-        lv_obj_set_style_text_color(char3, lv_color_black(), 0);
+        lv_obj_set_style_text_color(char3, COLOR_BLACK, 0);
     	lv_obj_set_pos(char3, 1, char_y + 2 * char_height);
         
         // 电流标签
         lv_obj_t* current_text = lv_label_create(detection_container);
         lv_label_set_text(current_text, "电流:");
         lv_obj_set_style_text_font(current_text, &lv_font_welder_12, 0);
-        lv_obj_set_style_text_color(current_text, lv_color_hex(0x1E90FF), 0);
+        lv_obj_set_style_text_color(current_text, COLOR_BLUE, 0);
         lv_obj_set_pos(current_text, data_start_x, row_y + 1);
         
         // 电流数值
         lv_obj_t* current_value = lv_label_create(detection_container);
         lv_label_set_text(current_value, "0.0");
         lv_obj_set_style_text_font(current_value, &lv_font_welder_12, 0);
-        lv_obj_set_style_text_color(current_value, lv_color_black(), 0);
+        lv_obj_set_style_text_color(current_value, COLOR_BLACK, 0);
         lv_obj_set_pos(current_value, data_start_x + 40, row_y + 1);
         
         // 保存电流标签指针
@@ -339,21 +333,21 @@ static void create_current_detection_area(lv_obj_t* parent) {
         lv_obj_t* current_unit = lv_label_create(detection_container);
         lv_label_set_text(current_unit, "KA");
         lv_obj_set_style_text_font(current_unit, &lv_font_welder_12, 0);
-        lv_obj_set_style_text_color(current_unit, lv_color_black(), 0);
+        lv_obj_set_style_text_color(current_unit, COLOR_BLACK, 0);
         lv_obj_set_pos(current_unit, data_start_x + 75, row_y + 1);
         
         // 时间标签
         lv_obj_t* time_text = lv_label_create(detection_container);
         lv_label_set_text(time_text, "时间:");
         lv_obj_set_style_text_font(time_text, &lv_font_welder_12, 0);
-        lv_obj_set_style_text_color(time_text, lv_color_hex(0x1E90FF), 0);
+        lv_obj_set_style_text_color(time_text, COLOR_BLUE, 0);
         lv_obj_set_pos(time_text, data_start_x, row_y + 14);
         
         // 时间数值
         lv_obj_t* time_value = lv_label_create(detection_container);
         lv_label_set_text(time_value, "0.0");
         lv_obj_set_style_text_font(time_value, &lv_font_welder_12, 0);
-        lv_obj_set_style_text_color(time_value, lv_color_black(), 0);
+        lv_obj_set_style_text_color(time_value, COLOR_BLACK, 0);
         lv_obj_set_pos(time_value, data_start_x + 40, row_y + 14);
         
         // 保存时间标签指针
@@ -367,21 +361,21 @@ static void create_current_detection_area(lv_obj_t* parent) {
         lv_obj_t* time_unit = lv_label_create(detection_container);
         lv_label_set_text(time_unit, "ms");
         lv_obj_set_style_text_font(time_unit, &lv_font_welder_12, 0);
-        lv_obj_set_style_text_color(time_unit, lv_color_black(), 0);
+        lv_obj_set_style_text_color(time_unit, COLOR_BLACK, 0);
         lv_obj_set_pos(time_unit, data_start_x + 75, row_y + 14);
         
         // 导通角标签
         lv_obj_t* angle_text = lv_label_create(detection_container);
         lv_label_set_text(angle_text, "导通角:");
         lv_obj_set_style_text_font(angle_text, &lv_font_welder_12, 0);
-        lv_obj_set_style_text_color(angle_text, lv_color_hex(0x1E90FF), 0);
+        lv_obj_set_style_text_color(angle_text, COLOR_BLUE, 0);
         lv_obj_set_pos(angle_text, data_start_x, row_y + 28);
         
         // 导通角数值
         lv_obj_t* angle_value = lv_label_create(detection_container);
         lv_label_set_text(angle_value, "0.0");
         lv_obj_set_style_text_font(angle_value, &lv_font_welder_12, 0);
-        lv_obj_set_style_text_color(angle_value, lv_color_black(), 0);
+        lv_obj_set_style_text_color(angle_value, COLOR_BLACK, 0);
         lv_obj_set_pos(angle_value, data_start_x + 50, row_y + 28);
         
         // 保存导通角标签指针
@@ -395,7 +389,7 @@ static void create_current_detection_area(lv_obj_t* parent) {
         lv_obj_t* angle_unit = lv_label_create(detection_container);
         lv_label_set_text(angle_unit, "%");
         lv_obj_set_style_text_font(angle_unit, &lv_font_welder_12, 0);
-        lv_obj_set_style_text_color(angle_unit, lv_color_black(), 0);
+        lv_obj_set_style_text_color(angle_unit, COLOR_BLACK, 0);
         lv_obj_set_pos(angle_unit, data_start_x + 82, row_y + 28);
         
         // 添加行分隔线（最后一行不添加）
@@ -403,7 +397,7 @@ static void create_current_detection_area(lv_obj_t* parent) {
             lv_obj_t* separator = lv_obj_create(detection_container);
             lv_obj_set_size(separator, width - 20, 1);
             lv_obj_set_pos(separator, 10, row_y + row_height);
-            lv_obj_set_style_bg_color(separator, lv_color_hex(0xE0E0E0), 0);
+            lv_obj_set_style_bg_color(separator, COLOR_GRAY, 0);
             lv_obj_set_style_bg_opa(separator, LV_OPA_100, 0);
             lv_obj_clear_flag(separator, LV_OBJ_FLAG_CLICKABLE);
         }
@@ -413,7 +407,7 @@ static void create_current_detection_area(lv_obj_t* parent) {
     lv_obj_t* time_div_label = lv_label_create(parent);
     lv_label_set_text(time_div_label, "时间(ms/DIV)");
     lv_obj_set_style_text_font(time_div_label, &lv_font_welder_12, 0);
-    lv_obj_set_style_text_color(time_div_label, lv_color_hex(0x1E90FF), 0);
+    lv_obj_set_style_text_color(time_div_label, COLOR_BLUE, 0);
     lv_obj_set_pos(time_div_label, x, y+height);
 }
 
@@ -440,14 +434,14 @@ static void create_bottom_buttons_area(lv_obj_t* parent) {
     lv_obj_t* btn_func = lv_btn_create(parent);
     lv_obj_set_size(btn_func, 100, 40);
 	lv_obj_set_pos(btn_func, x_offset, 230);
-    lv_obj_set_style_bg_color(btn_func, lv_color_hex(0x3399FF), 0);
+    lv_obj_set_style_bg_color(btn_func, COLOR_TITLE_BG, 0);
     lv_obj_set_style_radius(btn_func, 8, 0);
     lv_obj_set_style_shadow_width(btn_func, 5, 0);
     lv_obj_set_style_shadow_spread(btn_func, 2, 0);
     
     lv_obj_t* btn_func_label = lv_label_create(btn_func);
     lv_obj_set_style_text_font(btn_func_label, &lv_font_welder_20, 0);
-    lv_obj_set_style_text_color(btn_func_label, lv_color_white(), 0);
+    lv_obj_set_style_text_color(btn_func_label, COLOR_TEXT_BLUE, 0);
     lv_label_set_text(btn_func_label, "功能选择");
     lv_obj_center(btn_func_label);
 
@@ -456,14 +450,14 @@ static void create_bottom_buttons_area(lv_obj_t* parent) {
     lv_obj_t* btn_weld = lv_btn_create(parent);
     lv_obj_set_size(btn_weld, 80, 40);
 	lv_obj_set_pos(btn_weld, x_offset, 230);
-    lv_obj_set_style_bg_color(btn_weld, lv_color_hex(0x3399FF), 0);
-    lv_obj_set_style_radius(btn_weld, 8, 0);
-    lv_obj_set_style_shadow_width(btn_weld, 5, 0);
-    lv_obj_set_style_shadow_spread(btn_weld, 2, 0);
+    lv_obj_set_style_bg_color(btn_weld, COLOR_WHITE, 0);
+    lv_obj_set_style_radius(btn_weld, 0, 0);
+    lv_obj_set_style_shadow_width(btn_weld, 0, 0);
+    lv_obj_set_style_shadow_spread(btn_weld, 0, 0);
     
     lv_obj_t* btn_weld_label = lv_label_create(btn_weld);
     lv_obj_set_style_text_font(btn_weld_label, &lv_font_welder_20, 0);
-    lv_obj_set_style_text_color(btn_weld_label, lv_color_white(), 0);
+    lv_obj_set_style_text_color(btn_weld_label, COLOR_TEXT_BLUE, 0);
     lv_label_set_text(btn_weld_label, "焊接");
     lv_obj_center(btn_weld_label);
     
@@ -477,7 +471,7 @@ void create_current_monitor_interface(void) {
     scr = lv_obj_create(NULL);
     
     // 设置屏幕背景色为浅色
-    lv_obj_set_style_bg_color(scr, lv_color_white(), 0);
+    lv_obj_set_style_bg_color(scr, COLOR_WHITE, 0);
     lv_obj_set_style_bg_opa(scr, LV_OPA_100, 0);
     
     // 创建各个界面组件

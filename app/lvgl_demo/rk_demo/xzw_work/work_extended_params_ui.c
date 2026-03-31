@@ -71,14 +71,10 @@ static lv_obj_t* create_top_title(lv_obj_t* parent) {
     lv_obj_set_pos(title_bar, 0, 0);
     lv_obj_clear_flag(title_bar, LV_OBJ_FLAG_SCROLLABLE);
     
-    // 水平渐变背景
     static lv_style_t style_bar;
     lv_style_init(&style_bar);
     lv_style_set_bg_opa(&style_bar, LV_OPA_100);
-    lv_style_set_bg_color(&style_bar, COLOR_DEEP_BLUE);
-    lv_style_set_bg_grad_color(&style_bar, COLOR_LIGHT_BLUE);
-    lv_style_set_bg_grad_dir(&style_bar, LV_GRAD_DIR_HOR);
-    lv_style_set_bg_grad_stop(&style_bar, 128);
+    lv_style_set_bg_color(&style_bar, COLOR_BG_BLUE);
     lv_obj_add_style(title_bar, &style_bar, 0);
     
     // 左下角深色标签 - 焊接参数
@@ -438,14 +434,14 @@ static void create_bottom_buttons_area(lv_obj_t* parent) {
     lv_obj_t* btn_func = lv_btn_create(parent);
     lv_obj_set_size(btn_func, 100, 40);
 	lv_obj_set_pos(btn_func, x_offset, 230);
-    lv_obj_set_style_bg_color(btn_func, lv_color_hex(0x3399FF), 0);
+    lv_obj_set_style_bg_color(btn_func, COLOR_TITLE_BG, 0);
     lv_obj_set_style_radius(btn_func, 8, 0);
     lv_obj_set_style_shadow_width(btn_func, 5, 0);
     lv_obj_set_style_shadow_spread(btn_func, 2, 0);
     
     lv_obj_t* btn_func_label = lv_label_create(btn_func);
     lv_obj_set_style_text_font(btn_func_label, &lv_font_welder_20, 0);
-    lv_obj_set_style_text_color(btn_func_label, lv_color_white(), 0);
+    lv_obj_set_style_text_color(btn_func_label, COLOR_TEXT_BLUE, 0);
     lv_label_set_text(btn_func_label, "功能选择");
     lv_obj_center(btn_func_label);
 
@@ -454,14 +450,14 @@ static void create_bottom_buttons_area(lv_obj_t* parent) {
     lv_obj_t* btn_weld = lv_btn_create(parent);
     lv_obj_set_size(btn_weld, 80, 40);
 	lv_obj_set_pos(btn_weld, x_offset, 230);
-    lv_obj_set_style_bg_color(btn_weld, lv_color_hex(0x3399FF), 0);
-    lv_obj_set_style_radius(btn_weld, 8, 0);
-    lv_obj_set_style_shadow_width(btn_weld, 5, 0);
-    lv_obj_set_style_shadow_spread(btn_weld, 2, 0);
+    lv_obj_set_style_bg_color(btn_weld, COLOR_WHITE, 0);
+    lv_obj_set_style_radius(btn_weld, 0, 0);
+    lv_obj_set_style_shadow_width(btn_weld, 0, 0);
+    lv_obj_set_style_shadow_spread(btn_weld, 0, 0);
     
     lv_obj_t* btn_weld_label = lv_label_create(btn_weld);
     lv_obj_set_style_text_font(btn_weld_label, &lv_font_welder_20, 0);
-    lv_obj_set_style_text_color(btn_weld_label, lv_color_white(), 0);
+    lv_obj_set_style_text_color(btn_weld_label, COLOR_TEXT_BLUE, 0);
     lv_label_set_text(btn_weld_label, "焊接");
     lv_obj_center(btn_weld_label);
     

@@ -23,10 +23,6 @@ extern lv_style_t style_txt_l;
 // 精密逆变电阻焊接电源控制界面
 #include "lv_font_welder_20.h"
 
-// 定义颜色
-#define COLOR_TITLE_BG    		lv_color_hex(0xA3ECFA)      // 浅蓝色标题背景
-#define COLOR_TEXT_BLUE   		lv_color_hex(0x0066CC)      // 蓝色文字
-
 // 全局变量
 static lv_obj_t * scr = NULL;
 static lv_obj_t * dot_count_label;     // 打点总数显示
@@ -178,9 +174,6 @@ static lv_obj_t* create_left_panel(lv_obj_t* parent) {
 	lv_obj_set_pos(work_label, x_offset, y_offset);
 	// 5. 设置文字
 	lv_label_set_text(work_label, "工件打点数");
-	// 6. 如果需要，可以添加轻微边框效果
-	// lv_obj_set_style_border_color(work_label, lv_color_hex(0x6699CC), 0);
-	// lv_obj_set_style_border_width(work_label, 1, 0);
 
 	y_offset += 38;
 	// 整个组件的容器

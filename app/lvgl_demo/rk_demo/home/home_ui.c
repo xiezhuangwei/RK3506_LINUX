@@ -315,8 +315,6 @@ void rk_demo_init(void)
 
     lv_disp_load_scr(scr);
 
-    //timer_snapshot = lv_timer_create(take_snapshot, 1000, NULL);
-
 	//home_ui_init();
 	work_login_ui_init();
 

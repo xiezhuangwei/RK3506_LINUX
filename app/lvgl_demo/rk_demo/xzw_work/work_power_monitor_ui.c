@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include <string.h>
 #include "work_power_monitor_ui.h"
+#include "work_func_chose_ui.h"
+#include "work_welder_type_setting_ui.h"
 #include "lv_font_welder_20.h"
 #include "lv_font_welder_16.h"
 #include "lv_font_welder_12.h"
@@ -48,36 +50,30 @@ static lv_obj_t* create_top_title(lv_obj_t* parent) {
     lv_obj_set_pos(title_bar, 0, 0);
     lv_obj_clear_flag(title_bar, LV_OBJ_FLAG_SCROLLABLE);
     
-    // 水平渐变背景
     static lv_style_t style_bar;
     lv_style_init(&style_bar);
     lv_style_set_bg_opa(&style_bar, LV_OPA_100);
-    lv_style_set_bg_color(&style_bar, COLOR_DEEP_BLUE);
-    lv_style_set_bg_grad_color(&style_bar, COLOR_LIGHT_BLUE);
-    lv_style_set_bg_grad_dir(&style_bar, LV_GRAD_DIR_HOR);
-    // 重要：设置渐变停止点，使渐变更均匀
-    lv_style_set_bg_grad_stop(&style_bar, 128);  // 中间停止点
-    // 可选：添加模糊效果使渐变更平滑
-    lv_style_set_blend_mode(&style_bar, LV_BLEND_MODE_NORMAL);
+    lv_style_set_bg_color(&style_bar, COLOR_BG_BLUE);
     lv_obj_add_style(title_bar, &style_bar, 0);
     
     // 左下角白色标签
     lv_obj_t* tag_bg = lv_obj_create(title_bar);
     lv_obj_set_size(tag_bg, 90, 26);
-    lv_obj_set_style_bg_color(tag_bg, lv_color_white(), 0);
+    lv_obj_set_style_bg_color(tag_bg, COLOR_WHITE, 0);
     lv_obj_set_style_bg_opa(tag_bg, LV_OPA_100, 0);
     lv_obj_set_style_radius(tag_bg, 4, 0);
     lv_obj_set_style_border_width(tag_bg, 0, 0);
     lv_obj_set_pos(tag_bg, 2, 6);
-    
+	lv_obj_clear_flag(tag_bg, LV_OBJ_FLAG_SCROLLABLE);
+	
     // 橙色文字
     lv_obj_t* label = lv_label_create(tag_bg);
     lv_obj_set_style_text_font(label, &lv_font_welder_20, 0);
-    lv_obj_set_style_text_color(label, lv_color_hex(0xFF6B35), 0);
+    lv_obj_set_style_text_color(label, COLOR_ORANGE, 0);
     lv_label_set_text(label, "电源监控");
     lv_obj_center(label);
-    
-    return title_bar;
+	lv_obj_clear_flag(label, LV_OBJ_FLAG_SCROLLABLE);  
+    return title_bar;    
 }
 
 static void create_monitor_data_area(lv_obj_t* parent) {
@@ -110,7 +106,7 @@ static void create_monitor_data_area(lv_obj_t* parent) {
     lv_obj_set_pos(data_container, start_x, start_y);
     lv_obj_clear_flag(data_container, LV_OBJ_FLAG_SCROLLABLE);
     
-    lv_obj_set_style_bg_color(data_container, lv_color_hex(0x2196F3), 0);
+    lv_obj_set_style_bg_color(data_container, COLOR_BLUE, 0);
     lv_obj_set_style_bg_opa(data_container, LV_OPA_100, 0);
     lv_obj_set_style_border_width(data_container, 0, 0);
     lv_obj_set_style_radius(data_container, 0, 0);
@@ -144,19 +140,19 @@ static void create_monitor_data_area(lv_obj_t* parent) {
         // 参数名称
         lv_obj_t* name_label = lv_label_create(row_container);
         lv_label_set_text(name_label, items[i].name);
-        lv_obj_set_style_text_color(name_label, lv_color_black(), 0);  // 黑色文字
+        lv_obj_set_style_text_color(name_label, COLOR_BLACK, 0);  // 黑色文字
         lv_obj_set_style_text_font(name_label, &lv_font_welder_12, 0);
         
         // 数值
         lv_obj_t* value_label = lv_label_create(row_container);
         lv_label_set_text(value_label, "0.0");  // 初始值
-        lv_obj_set_style_text_color(value_label, lv_color_black(), 0);  // 黑色文字
+        lv_obj_set_style_text_color(value_label, COLOR_BLACK, 0);  // 黑色文字
         lv_obj_set_style_text_font(value_label, &lv_font_welder_12, 0);
         
         // 单位
         lv_obj_t* unit_label = lv_label_create(row_container);
         lv_label_set_text(unit_label, items[i].unit);
-        lv_obj_set_style_text_color(unit_label, lv_color_black(), 0);  // 黑色文字
+        lv_obj_set_style_text_color(unit_label, COLOR_BLACK, 0);  // 黑色文字
         lv_obj_set_style_text_font(unit_label, &lv_font_welder_12, 0);
         
         // 保存数值标签指针
@@ -177,10 +173,9 @@ static void create_bottom_operation_area(lv_obj_t* parent, int start_y) {
     lv_obj_t* op_container = lv_obj_create(parent);
     lv_obj_set_size(op_container, width, height);
     lv_obj_set_pos(op_container, 13, start_y);
-    lv_obj_set_style_bg_color(op_container, lv_color_hex(0xE8F5E9), 0);  // 浅绿色
+    lv_obj_set_style_bg_color(op_container, COLOR_LITE_GREEN, 0);  // 浅绿色
     lv_obj_set_style_bg_opa(op_container, LV_OPA_100, 0);
-    lv_obj_set_style_border_width(op_container, 1, 0);
-    lv_obj_set_style_border_color(op_container, lv_color_hex(0xC8E6C9), 0);
+    lv_obj_set_style_border_width(op_container, 0, 0);
     lv_obj_set_style_radius(op_container, 0, 0);
     lv_obj_set_style_pad_top(op_container, 0, 0);
     lv_obj_set_style_pad_bottom(op_container, 0, 0);
@@ -190,25 +185,24 @@ static void create_bottom_operation_area(lv_obj_t* parent, int start_y) {
     
     // 输入框（黑色）
     lv_obj_t* input_box = lv_obj_create(op_container);
-    lv_obj_set_size(input_box, 200, 30);
-    lv_obj_align(input_box, LV_ALIGN_LEFT_MID, 40, 0);
-    lv_obj_set_style_bg_color(input_box, lv_color_black(), 0);
+    lv_obj_set_size(input_box, 220, 30);
+    lv_obj_set_pos(input_box, 80, 5);
+    lv_obj_set_style_text_font(input_box, &lv_font_welder_20, 0);
+	lv_obj_set_style_text_color(input_box, COLOR_WHITE, 0);
+    lv_obj_set_style_bg_color(input_box, COLOR_BLACK, 0);
     lv_obj_set_style_bg_opa(input_box, LV_OPA_100, 0);
-    lv_obj_set_style_radius(input_box, 0, 0);
-    lv_obj_set_style_pad_top(input_box, 0, 0);
-    lv_obj_set_style_pad_bottom(input_box, 0, 0);
-    lv_obj_set_style_pad_left(input_box, 0, 0);
-    lv_obj_set_style_pad_right(input_box, 0, 0);
+    lv_obj_set_style_text_align(input_box, LV_TEXT_ALIGN_CENTER, 0);
+    lv_obj_set_style_pad_ver(input_box, 3, 0);
     
     // 告警复位按钮（蓝色）
     lv_obj_t* reset_btn = lv_btn_create(op_container);
     lv_obj_set_size(reset_btn, 100, 30);
     lv_obj_align(reset_btn, LV_ALIGN_RIGHT_MID, -20, 0);
-    lv_obj_set_style_bg_color(reset_btn, lv_color_hex(0x2196F3), 0);
+    lv_obj_set_style_bg_color(reset_btn, COLOR_BLUE, 0);
     
     lv_obj_t* btn_label = lv_label_create(reset_btn);
     lv_label_set_text(btn_label, "告警复位");
-    lv_obj_set_style_text_color(btn_label, lv_color_white(), 0);
+    lv_obj_set_style_text_color(btn_label, COLOR_BLACK, 0);
     lv_obj_set_style_text_font(btn_label, &lv_font_welder_16, 0);
     lv_obj_center(btn_label);
 
@@ -235,7 +229,7 @@ static void create_alarm_area(lv_obj_t* parent) {
             lv_obj_t* alarm_label = lv_label_create(parent);
             lv_label_set_text(alarm_label, alarms[index].name);
             lv_obj_set_style_text_font(alarm_label, &lv_font_welder_16, 0);
-            lv_obj_set_style_text_color(alarm_label, lv_color_hex(0x2196F3), 0);  // 蓝色
+            lv_obj_set_style_text_color(alarm_label, COLOR_BLUE, 0);  // 蓝色
             lv_obj_set_pos(alarm_label, start_x+col*col_width, start_y+row*row_height);
             
             // 保存指示灯引用
@@ -269,14 +263,14 @@ static void create_bottom_buttons(lv_obj_t* parent) {
     lv_obj_t* btn_func = lv_btn_create(parent);
     lv_obj_set_size(btn_func, 100, 40);
 	lv_obj_set_pos(btn_func, x_offset, 230);
-    lv_obj_set_style_bg_color(btn_func, lv_color_hex(0x3399FF), 0);
+    lv_obj_set_style_bg_color(btn_func, COLOR_TITLE_BG, 0);
     lv_obj_set_style_radius(btn_func, 8, 0);
     lv_obj_set_style_shadow_width(btn_func, 5, 0);
     lv_obj_set_style_shadow_spread(btn_func, 2, 0);
     
     lv_obj_t* btn_func_label = lv_label_create(btn_func);
     lv_obj_set_style_text_font(btn_func_label, &lv_font_welder_20, 0);
-    lv_obj_set_style_text_color(btn_func_label, lv_color_white(), 0);
+    lv_obj_set_style_text_color(btn_func_label, COLOR_TEXT_BLUE, 0);
     lv_label_set_text(btn_func_label, "功能选择");
     lv_obj_center(btn_func_label);
 
@@ -285,14 +279,14 @@ static void create_bottom_buttons(lv_obj_t* parent) {
     lv_obj_t* btn_weld = lv_btn_create(parent);
     lv_obj_set_size(btn_weld, 80, 40);
 	lv_obj_set_pos(btn_weld, x_offset, 230);
-    lv_obj_set_style_bg_color(btn_weld, lv_color_hex(0x3399FF), 0);
-    lv_obj_set_style_radius(btn_weld, 8, 0);
-    lv_obj_set_style_shadow_width(btn_weld, 5, 0);
-    lv_obj_set_style_shadow_spread(btn_weld, 2, 0);
+    lv_obj_set_style_bg_color(btn_weld, COLOR_WHITE, 0);
+    lv_obj_set_style_radius(btn_weld, 0, 0);
+    lv_obj_set_style_shadow_width(btn_weld, 0, 0);
+    lv_obj_set_style_shadow_spread(btn_weld, 0, 0);
     
     lv_obj_t* btn_weld_label = lv_label_create(btn_weld);
     lv_obj_set_style_text_font(btn_weld_label, &lv_font_welder_20, 0);
-    lv_obj_set_style_text_color(btn_weld_label, lv_color_white(), 0);
+    lv_obj_set_style_text_color(btn_weld_label, COLOR_TEXT_BLUE, 0);
     lv_label_set_text(btn_weld_label, "焊接");
     lv_obj_center(btn_weld_label);
     
@@ -306,7 +300,7 @@ void create_power_monitor_interface(void) {
     scr = lv_obj_create(NULL);
     
     // 设置屏幕背景色
-    lv_obj_set_style_bg_color(scr, lv_color_white(), 0);
+    lv_obj_set_style_bg_color(scr, COLOR_WHITE, 0);
     lv_obj_set_style_bg_opa(scr, LV_OPA_100, 0);
     
     // 创建各个界面组件
