@@ -12,6 +12,12 @@
 #include "layout/tile_layout.h"
 #include "main.h"
 #include "work_func_chose_ui.h"
+#include "work_keyboard_numeric_ui.h"
+#include "work_main_ui.h"
+#include "work_welding_params_ui.h"
+#include "work_current_monitor_ui.h"
+#include "work_power_monitor_ui.h"
+#include "work_welder_type_setting_ui.h"
 #include "ui_resource.h"
 #include "work_color.h"
 
@@ -21,9 +27,42 @@ extern lv_style_t style_txt_l;
 // 功能选择界面
 #include "lv_font_welder_20.h"
 
+// 定义权限类型枚举（可选，用于逻辑清晰）
+typedef enum {
+    PERMISSION_PRIMARY = 1,
+    PERMISSION_INTERMEDIATE = 2,
+    PERMISSION_ADVANCED = 3
+} permission_type_t;
+
+// 全局变量：记录当前尝试切换的权限类型
+static permission_type_t target_permission = PERMISSION_PRIMARY;
+static permission_type_t cur_permission = PERMISSION_PRIMARY;
+
 // 全局变量声明
 static lv_obj_t* scr = NULL;
 static lv_obj_t* current_permission_btn = NULL;  // 当前选中的权限按钮
+static lv_obj_t* btn_primary = NULL;
+static lv_obj_t* btn_intermediate = NULL;
+static lv_obj_t* btn_advanced = NULL;
+
+static void set_permission_btn_selected(lv_obj_t* btn, bool selected) {
+    lv_obj_t* label = lv_obj_get_child(btn, 0);
+    if (selected) {
+        lv_obj_set_style_bg_color(btn, COLOR_BG_YELLOW, 0);
+        lv_obj_set_style_border_color(btn, COLOR_WHITE, 0);
+        lv_obj_set_style_border_width(btn, 3, 0);
+        if (label) {
+            lv_obj_set_style_text_color(label, COLOR_BLACK, 0);
+        }
+    } else {
+        lv_obj_set_style_bg_color(btn, COLOR_BLACK, 0);
+        lv_obj_set_style_border_color(btn, COLOR_GRAY, 0);
+        lv_obj_set_style_border_width(btn, 1, 0);
+        if (label) {
+            lv_obj_set_style_text_color(label, COLOR_WHITE, 0);
+        }
+    }
+}
 
 // 创建顶部标题栏
 static lv_obj_t* create_top_title(lv_obj_t* parent) {
@@ -60,6 +99,66 @@ static lv_obj_t* create_top_title(lv_obj_t* parent) {
     return title_bar;
 }
 
+// 键盘输入完成后的处理
+static void on_keyboard_enter(const char* input) {
+    printf("输入的密码: %s\n", input);
+
+    // TODO: 这里替换为你的实际密码验证逻辑
+    bool valid = false;
+    if (target_permission == PERMISSION_PRIMARY) {
+        valid = (strcmp(input, "123") == 0);      // 初级密码
+        if (valid) {
+            cur_permission = PERMISSION_PRIMARY;
+        }
+    } else if (target_permission == PERMISSION_INTERMEDIATE) {
+        valid = (strcmp(input, "456") == 0);      // 中级密码
+        if (valid) {
+            cur_permission = PERMISSION_INTERMEDIATE;
+        }
+    } else if (target_permission == PERMISSION_ADVANCED) {
+        valid = (strcmp(input, "789") == 0);      // 高级密码
+        if (valid) {
+            cur_permission = PERMISSION_ADVANCED;
+        }
+    }
+
+    if (valid) {
+        printf("权限切换成功！\n");
+    } else {
+        // 密码错误：可弹出提示（这里简单打印）
+        printf("密码错误！\n");
+        // 可选：显示错误提示标签几秒后消失
+    }
+
+    work_func_chose_ui_init();
+    // 返回原界面（销毁键盘）
+    keyboard_numeric_ui_destroy();
+}
+
+// 键盘取消
+static void on_keyboard_esc(void) {
+    printf("取消输入密码\n");
+    work_func_chose_ui_init();
+    keyboard_numeric_ui_destroy();
+}
+
+// 权限按钮点击事件
+static void on_permission_btn_clicked(lv_event_t* e) {
+    lv_obj_t* btn = lv_event_get_target(e);
+    permission_type_t perm = (permission_type_t)lv_obj_get_user_data(btn);
+
+    if(cur_permission != perm){
+        // 记录目标权限
+        target_permission = perm;
+
+        // 初始化键盘并设置回调
+        keyboard_set_on_enter_callback(on_keyboard_enter);
+        keyboard_set_on_esc_callback(on_keyboard_esc);
+        keyboard_numeric_ui_init(); // 跳转到键盘界面
+        destroy_func_interface();
+    }
+}
+
 // 创建左侧权限面板
 static lv_obj_t* create_left_panel(lv_obj_t* parent) {
     int y_offset = 50;  // 从标题栏下方开始
@@ -84,7 +183,7 @@ static lv_obj_t* create_left_panel(lv_obj_t* parent) {
     y_offset = 20;
     
     // 初级权限按钮
-    lv_obj_t* btn_primary = lv_btn_create(left_panel);
+    btn_primary = lv_btn_create(left_panel);
     lv_obj_set_size(btn_primary, 105, 35);
     lv_obj_set_style_bg_color(btn_primary, COLOR_BLACK, 0);
     lv_obj_set_style_bg_opa(btn_primary, LV_OPA_100, 0);
@@ -92,7 +191,9 @@ static lv_obj_t* create_left_panel(lv_obj_t* parent) {
     lv_obj_set_style_border_width(btn_primary, 0, 0);
     lv_obj_set_style_border_color(btn_primary, COLOR_GRAY, 0);
     lv_obj_set_pos(btn_primary, 0, y_offset);
-    
+    lv_obj_add_event_cb(btn_primary, on_permission_btn_clicked, LV_EVENT_CLICKED, NULL);
+    lv_obj_set_user_data(btn_primary, (void*)PERMISSION_PRIMARY); // 标记权限类型
+
     lv_obj_t* primary_label = lv_label_create(btn_primary);
     lv_obj_set_style_text_font(primary_label, &lv_font_welder_20, 0);
     lv_obj_set_style_text_color(primary_label, COLOR_WHITE, 0);
@@ -102,25 +203,27 @@ static lv_obj_t* create_left_panel(lv_obj_t* parent) {
     y_offset += 38;
     
     // 中级权限按钮
-    lv_obj_t* btn_intermediate = lv_btn_create(left_panel);
+    btn_intermediate = lv_btn_create(left_panel);
     lv_obj_set_size(btn_intermediate, 105, 35);
-    lv_obj_set_style_bg_color(btn_intermediate, COLOR_BG_YELLOW, 0);
+    lv_obj_set_style_bg_color(btn_intermediate, COLOR_BLACK, 0);
     lv_obj_set_style_bg_opa(btn_intermediate, LV_OPA_100, 0);
     lv_obj_set_style_radius(btn_intermediate, 0, 0);
     lv_obj_set_style_border_width(btn_intermediate, 0, 0);
     lv_obj_set_style_border_color(btn_intermediate, COLOR_GRAY, 0);
     lv_obj_set_pos(btn_intermediate, 0, y_offset);
-    
+    lv_obj_add_event_cb(btn_intermediate, on_permission_btn_clicked, LV_EVENT_CLICKED, NULL);
+    lv_obj_set_user_data(btn_intermediate, (void*)PERMISSION_INTERMEDIATE);
+
     lv_obj_t* intermediate_label = lv_label_create(btn_intermediate);
     lv_obj_set_style_text_font(intermediate_label, &lv_font_welder_20, 0);
-    lv_obj_set_style_text_color(intermediate_label, COLOR_BLACK, 0);
+    lv_obj_set_style_text_color(intermediate_label, COLOR_WHITE, 0);
     lv_label_set_text(intermediate_label, "中级权限");
     lv_obj_center(intermediate_label);
     
     y_offset += 38;
     
     // 高级权限按钮
-    lv_obj_t* btn_advanced = lv_btn_create(left_panel);
+    btn_advanced = lv_btn_create(left_panel);
     lv_obj_set_size(btn_advanced, 105, 35);
     lv_obj_set_style_bg_color(btn_advanced, COLOR_BLACK, 0);
     lv_obj_set_style_bg_opa(btn_advanced, LV_OPA_100, 0);
@@ -128,7 +231,9 @@ static lv_obj_t* create_left_panel(lv_obj_t* parent) {
     lv_obj_set_style_border_width(btn_advanced, 0, 0);
     lv_obj_set_style_border_color(btn_advanced, COLOR_GRAY, 0);
     lv_obj_set_pos(btn_advanced, 0, y_offset);
-    
+    lv_obj_add_event_cb(btn_advanced, on_permission_btn_clicked, LV_EVENT_CLICKED, NULL);
+    lv_obj_set_user_data(btn_advanced, (void*)PERMISSION_ADVANCED);
+
     lv_obj_t* advanced_label = lv_label_create(btn_advanced);
     lv_obj_set_style_text_font(advanced_label, &lv_font_welder_20, 0);
     lv_obj_set_style_text_color(advanced_label, COLOR_WHITE, 0);
@@ -154,9 +259,18 @@ static lv_obj_t* create_left_panel(lv_obj_t* parent) {
     lv_obj_center(password_label);
     
     // 设置中级权限为当前选中状态
-    current_permission_btn = btn_primary;
-    lv_obj_set_style_border_color(current_permission_btn, COLOR_WHITE, 0);
-    lv_obj_set_style_border_width(current_permission_btn, 3, 0);
+    switch (cur_permission) {
+        case PERMISSION_PRIMARY:
+            current_permission_btn = btn_primary;
+            break;
+        case PERMISSION_INTERMEDIATE:
+            current_permission_btn = btn_intermediate;
+            break;
+        case PERMISSION_ADVANCED:
+            current_permission_btn = btn_advanced;
+            break;
+    }
+    set_permission_btn_selected(current_permission_btn, true);
     
     return left_panel;
 }
@@ -269,24 +383,6 @@ static void create_bottom_bar(lv_obj_t* parent) {
     lv_obj_add_event_cb(btn_weld, weld_btn_event, LV_EVENT_CLICKED, NULL);
 }
 
-
-// 权限按钮点击事件处理
-static void permission_btn_event(lv_event_t* e) {
-    lv_obj_t* btn = lv_event_get_target(e);
-    
-    if (current_permission_btn != btn) {
-        // 重置之前的按钮边框
-        lv_obj_set_style_border_color(current_permission_btn, COLOR_GRAY, 0);
-        lv_obj_set_style_border_width(current_permission_btn, 1, 0);
-        
-        // 设置新的选中按钮边框
-        lv_obj_set_style_border_color(btn, COLOR_WHITE, 0);
-        lv_obj_set_style_border_width(btn, 3, 0);
-        
-        current_permission_btn = btn;
-    }
-}
-
 // 功能按钮点击事件处理
 static void function_btn_event(lv_event_t* e) {
     lv_obj_t* btn = lv_event_get_target(e);
@@ -312,13 +408,6 @@ static void function_btn_event(lv_event_t* e) {
 
 // 添加按钮事件
 static void add_button_events(lv_obj_t* parent) {
-    // 左侧权限按钮事件
-    lv_obj_t* left_panel = lv_obj_get_child(parent, 1);  // 获取左侧面板
-    for (int i = 0; i < 4; i++) {
-        lv_obj_t* btn = lv_obj_get_child(left_panel, i + 1);  // 跳过第一个标签
-        lv_obj_add_event_cb(btn, permission_btn_event, LV_EVENT_CLICKED, NULL);
-    }
-    
     // 右侧功能按钮事件
     lv_obj_t* right_panel = lv_obj_get_child(parent, 2);  // 获取右侧面板
     for (int i = 0; i < 4; i++) {

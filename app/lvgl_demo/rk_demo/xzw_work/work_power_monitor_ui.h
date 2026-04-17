@@ -8,7 +8,7 @@
 void work_power_monitor_ui_init(void);
 
 // 销毁电源监控UI
-//void destroy_power_monitor_ui(void);
+void destroy_power_monitor_ui(void);
 
 // 更新监控数据
 //void update_monitor_data(float voltage, float igbt1_temp, float igbt2_temp, float water_flow);

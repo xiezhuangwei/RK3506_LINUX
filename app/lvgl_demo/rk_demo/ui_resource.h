@@ -67,6 +67,9 @@
 #define IMG_INTERCOM_RECTANGLE1     "A:"PATH_PREFIX"/rectangle_1.png"
 #define IMG_INTERCOM_CONTUINE       "A:"PATH_PREFIX"/continue.png"
 
+//keyboard numeric
+#define KEYBOARD_NUMERIC_BG_PIC     "A:"PATH_PREFIX"/work_keyboard.jpg"
+
 #define BG_COLOR                    (lv_color_hex(0x484B5B))
 #define GRAD_COLOR                  (lv_color_hex(0x2C2D35))
 #define MAIN_COLOR                  (lv_color_hex(0x434650))

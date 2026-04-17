@@ -3,6 +3,10 @@
 #include <stdio.h>
 #include <string.h>
 #include "work_extended_params_ui.h"
+#include "work_welding_params_ui.h"
+#include "work_system_params_ui.h"
+#include "work_func_chose_ui.h"
+#include "work_welder_type_setting_ui.h"
 #include "lv_font_welder_20.h"
 #include "lv_font_welder_16.h"
 #include "lv_font_welder_12.h"

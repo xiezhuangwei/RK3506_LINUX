@@ -2,6 +2,7 @@
 
 #include <pthread.h>
 #include <semaphore.h>
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -12,6 +13,7 @@
 #include "layout/tile_layout.h"
 #include "main.h"
 #include "work_login_ui.h"
+#include "work_main_ui.h"
 #include "ui_resource.h"
 #include "work_color.h"
 
@@ -516,7 +518,7 @@ void work_login_ui_init(void)
     if (pthread_create(&tid, NULL, login_init, NULL))
     {
         printf("pthread create work_login_ui err\n");
-        return -1;
+        return;
     }
 }
 

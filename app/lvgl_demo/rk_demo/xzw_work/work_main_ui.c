@@ -14,6 +14,7 @@
 #include "work_login_ui.h"
 #include "work_main_ui.h"
 #include "work_func_chose_ui.h"
+#include "work_welder_type_setting_ui.h"
 #include "ui_resource.h"
 #include "work_color.h"
 

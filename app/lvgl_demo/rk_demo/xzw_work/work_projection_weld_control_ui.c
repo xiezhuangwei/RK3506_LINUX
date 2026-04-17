@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "work_projection_weld_control_ui.h"
+#include "work_welder_type_setting_ui.h"
 #include "lv_font_welder_20.h"
 #include "lv_font_welder_16.h"
 #include "lv_font_welder_12.h"
