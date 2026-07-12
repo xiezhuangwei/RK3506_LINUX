@@ -69,6 +69,7 @@
 
 //keyboard numeric
 #define KEYBOARD_NUMERIC_BG_PIC     "A:"PATH_PREFIX"/work_keyboard.jpg"
+#define PASSWORD_MANAGER_BG_PIC     "A:"PATH_PREFIX"/work_password.jpg"
 
 #define BG_COLOR                    (lv_color_hex(0x484B5B))
 #define GRAD_COLOR                  (lv_color_hex(0x2C2D35))

@@ -485,10 +485,14 @@
 		pinctrl-names = "default";
 		pinctrl-0 = <&rgb888_pins>;
 		
+		// 关键配置
+		rockchip,data-width = <24>;      // 24位数据
+		rockchip,output-mode = "RGB888"; // RGB888 输出	
+		
 		ports {
 			#address-cells = <1>;
 			#size-cells = <0>;
-
+		
 			port@0 {
 				reg = <0>;
 				#address-cells = <1>;

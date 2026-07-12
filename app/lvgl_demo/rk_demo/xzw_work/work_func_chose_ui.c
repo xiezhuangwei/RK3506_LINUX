@@ -23,7 +23,6 @@
 
 extern lv_style_t style_txt_l;
 
-// welder_control_panel.c
 // 功能选择界面
 #include "lv_font_welder_20.h"
 
@@ -147,16 +146,21 @@ static void on_permission_btn_clicked(lv_event_t* e) {
     lv_obj_t* btn = lv_event_get_target(e);
     permission_type_t perm = (permission_type_t)lv_obj_get_user_data(btn);
 
-    if(cur_permission != perm){
-        // 记录目标权限
-        target_permission = perm;
+    // 记录目标权限
+    target_permission = perm;
 
-        // 初始化键盘并设置回调
-        keyboard_set_on_enter_callback(on_keyboard_enter);
-        keyboard_set_on_esc_callback(on_keyboard_esc);
-        keyboard_numeric_ui_init(); // 跳转到键盘界面
-        destroy_func_interface();
-    }
+    // 初始化键盘并设置回调
+    keyboard_set_on_enter_callback(on_keyboard_enter);
+    keyboard_set_on_esc_callback(on_keyboard_esc);
+    keyboard_numeric_ui_init(); // 跳转到键盘界面
+    destroy_func_interface();
+}
+
+// 密码管理点击事件
+static void on_password_manager_clicked(lv_event_t* e) {
+    printf("密码管理点击\n");
+    password_manager_ui_init();
+    destroy_func_interface();
 }
 
 // 创建左侧权限面板
@@ -251,7 +255,8 @@ static lv_obj_t* create_left_panel(lv_obj_t* parent) {
     lv_obj_set_style_border_width(btn_password, 0, 0);
     lv_obj_set_style_border_color(btn_password, COLOR_GRAY, 0);
     lv_obj_set_pos(btn_password, 0, y_offset);
-    
+    lv_obj_add_event_cb(btn_password, on_password_manager_clicked, LV_EVENT_CLICKED, NULL);
+
     lv_obj_t* password_label = lv_label_create(btn_password);
     lv_obj_set_style_text_font(password_label, &lv_font_welder_20, 0);
     lv_obj_set_style_text_color(password_label, COLOR_WHITE, 0);
